@@ -41,7 +41,7 @@ renderer.code = function(code, language) {
             <div class="code-header">
                 <span class="code-language">${validLang}</span>
                 <button class="code-copy-btn" onclick="window.copyCodeBlock(this)" aria-label="Copiar código">
-                    <span class="material-symbols-outlined" translate="no">content_copy</span>
+                    <svg fill="currentColor" width="21" height="21" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" data-iconid="313685" data-svgname="Check solid"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"></path></svg>
                 </button>
             </div>
             <pre><code class="hljs language-${validLang}">${highlighted}</code></pre>
@@ -274,7 +274,7 @@ window.copyMessage = function(button) {
     
     navigator.clipboard.writeText(text).then(() => {
         const originalIcon = button.innerHTML;
-        button.innerHTML = '<span class="material-symbols-outlined" translate="no">check</span>';
+        button.innerHTML = '<svg fill="currentColor" width="21" height="21" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" data-iconid="313685" data-svgname="Check solid"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"></path></svg>';
         setTimeout(() => {
             button.innerHTML = originalIcon;
         }, 2000);
@@ -294,7 +294,7 @@ window.copyCodeBlock = function(button) {
     
     navigator.clipboard.writeText(code).then(() => {
         const originalIcon = button.innerHTML;
-        button.innerHTML = '<span class="material-symbols-outlined" translate="no">check</span>';
+        button.innerHTML = '<svg fill="currentColor" width="21" height="21" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" data-iconid="313685" data-svgname="Check solid"><path d="M 28.28125 6.28125 L 11 23.5625 L 3.71875 16.28125 L 2.28125 17.71875 L 10.28125 25.71875 L 11 26.40625 L 11.71875 25.71875 L 29.71875 7.71875 Z"></path></svg>';
         setTimeout(() => {
             button.innerHTML = originalIcon;
         }, 2000);
