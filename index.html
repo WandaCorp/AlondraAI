@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Alondra AI - Asistente inteligente de Chat bot</title>
+    <meta name="description" content="Conoce a Alondra, el misterioso y poderoso asistente de IA del Proyecto 79. Experimenta razonamiento de alto nivel, búsqueda web y una personalidad que evoluciona.">
+    <meta name="keywords" content="Alondra, Asistente de IA, Proyecto 79, DeepSeek, Chatbot, Inteligencia Artificial, IA Misteriosa">
+    <meta name="author" content="Wanda Corporation, LLC.">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Alondra - Asistente">
+    <meta property="og:description" content="Una IA con misterios aún por resolver. Únete a la etapa Alpha de Alondra.">
+    <meta property="og:image" content="https://pera-ai-assistant.vercel.app/img/pera-ai-logo3.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Alondra - Wanda Corporation">
+    <meta name="twitter:description" content="Descubre los secretos detrás de los 'fallos' de Alondra y sus capacidades avanzadas de razonamiento.">
+    <meta name="twitter:image" content="https://pera-ai-assistant.vercel.app/img/pera-ai-logo3.jpg">
+
+    <meta name="google-site-verification" content="nIMyRAhn1FhVN_-VG147XRATmJr1mrZF63WRMabR-Ys" />
+
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="css/additional.css" type="text/css" media="all" />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <link rel="canonical" href="https://pera-ai-assistant.vercel.app/">
+</head>
+
+<body>
+
+<header class="pera-header" id="mainHeader">
+    <div class="pera-header__container">
+        
+        <!-- ========== LADO IZQUIERDO: BRANDING ========== -->
+        <div class="pera-brand">
+            <div class="pera-brand__avatar">
+                <img src="img/pera-ai-logo2.png" alt="Alondra Avatar" />
+            </div>
+            <div class="pera-brand__info">
+                <span class="pera-brand__name">Alondra AI</span>
+                <span class="pera-brand__subtitle">Wanda Corporation</span>
+            </div>
+        </div>
+
+        <!-- ========== LADO DERECHO: ACCIONES (DESKTOP) ========== -->
+        <div class="pera-actions pera-actions--desktop">
+            <button class="pera-btn pera-btn--community" id="communityBtn">
+                <svg fill="currentColor" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" data-iconid="305453" data-svgname="Diagonal arrow right up outline">
+                  <g data-name="Layer 2">
+                  <g data-name="diagonal-arrow-right-up">
+                  <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"></rect>
+                  <path d="M18 7.05a1 1 0 0 0-1-1L9 6a1 1 0 0 0 0 2h5.56l-8.27 8.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0L16 9.42V15a1 1 0 0 0 1 1 1 1 0 0 0 1-1z"></path>
+                  </g>
+                  </g>
+                </svg>
+                <span>Comunidad</span>
+            </button>
+            <button class="pera-btn pera-btn--newchat" id="newChatBtnDesktop">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span>Nuevo Chat</span>
+            </button>
+            <button class="pera-btn pera-btn--settings" id="settingsBtnDesktop">
+                <svg fill="currentColor" width="24" height="24" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-iconid="372419" data-svgname="File settings outline alerted">
+                  <path d="M24.12,20.35a4,4,0,1,0,4.08,4A4.06,4.06,0,0,0,24.12,20.35Zm0,6.46a2.43,2.43,0,1,1,2.48-2.43A2.46,2.46,0,0,1,24.12,26.82Z"></path><path d="M33.83,23.43a1.16,1.16,0,0,0-.71-1.12l-1.68-.5c-.09-.24-.18-.48-.29-.71l.78-1.44a1.16,1.16,0,0,0-.21-1.37l-1.42-1.41a1.16,1.16,0,0,0-1.37-.2l-1.45.76a7.84,7.84,0,0,0-.76-.32l-.48-1.58a1.15,1.15,0,0,0-1.11-.77h-2a1.16,1.16,0,0,0-1.11.82l-.47,1.54a7.76,7.76,0,0,0-.77.32l-1.42-.76a1.16,1.16,0,0,0-1.36.2l-1.45,1.4a1.16,1.16,0,0,0-.21,1.38L17.08,21a7.64,7.64,0,0,0-.31.74l-1.58.47a1.15,1.15,0,0,0-.83,1.11v2a1.15,1.15,0,0,0,.83,1.1l1.59.47a7.53,7.53,0,0,0,.31.72l-.78,1.46a1.16,1.16,0,0,0,.21,1.37l1.42,1.4a1.16,1.16,0,0,0,1.37.21l1.48-.78c.23.11.47.2.72.29L22,33.18a1.16,1.16,0,0,0,1.11.81h2a1.16,1.16,0,0,0,1.11-.82l.47-1.58c.24-.08.47-.18.7-.29l1.5.79a1.16,1.16,0,0,0,1.36-.2l1.42-1.4a1.16,1.16,0,0,0,.21-1.38l-.79-1.45q.16-.34.29-.69L33,26.5a1.15,1.15,0,0,0,.83-1.11Zm-1.6,1.63-2.11.62-.12.42a6,6,0,0,1-.5,1.19l-.21.38,1,1.91-1,1-2-1-.37.2a6.21,6.21,0,0,1-1.2.49l-.42.12-.63,2.09H23.42l-.63-2.08-.42-.12a6.23,6.23,0,0,1-1.21-.49l-.37-.2-1.94,1-1-1,1-1.94-.22-.38A6,6,0,0,1,18.17,26L18,25.63,16,25V23.69L18,23.08l.13-.41a5.94,5.94,0,0,1,.53-1.23L18.9,21l-1-1.85,1-.94,1.89,1,.38-.21a6.23,6.23,0,0,1,1.26-.52l.41-.12.63-2h1.38l.62,2,.41.12A6.21,6.21,0,0,1,27.1,19l.38.21,1.92-1,1,1-1,1.89.21.38a6.08,6.08,0,0,1,.5,1.21l.12.42,2.06.61Z"></path><path d="M14.49,31H6V5H21.87L23,3H6A2,2,0,0,0,4,5V31a2,2,0,0,0,2,2H16.23l-1.1-1.08A3.11,3.11,0,0,1,14.49,31Z"></path><path d="M26.85,1.14,21.13,11A1.28,1.28,0,0,0,22.23,13H33.68A1.28,1.28,0,0,0,34.78,11L29.06,1.14A1.28,1.28,0,0,0,26.85,1.14Z"></path>
+                  <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
+                </svg>
+                <span>Configuración</span>
+            </button>
+        </div>
+
+        <!-- ========== LADO DERECHO: ACCIONES (MÓVIL) ========== -->
+        <div class="pera-actions pera-actions--mobile">
+            <button class="pera-icon-btn" id="communityBtnMobile" aria-label="Comunidad">
+                <svg fill="currentColor" width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" data-iconid="305453" data-svgname="Diagonal arrow right up outline">
+                  <g data-name="Layer 2">
+                  <g data-name="diagonal-arrow-right-up">
+                  <rect width="22" height="22" transform="rotate(180 12 12)" opacity="0"></rect>
+                  <path d="M18 7.05a1 1 0 0 0-1-1L9 6a1 1 0 0 0 0 2h5.56l-8.27 8.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0L16 9.42V15a1 1 0 0 0 1 1 1 1 0 0 0 1-1z"></path>
+                  </g>
+                  </g>
+                </svg>
+            </button>
+            <button class="pera-icon-btn" id="newChatBtnMobile" aria-label="Nuevo Chat">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            <button class="pera-icon-btn" id="settingsBtnMobile" aria-label="Configuración">
+                <svg fill="currentColor" width="22" height="22" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-iconid="372419" data-svgname="File settings outline alerted">
+                  <path d="M24.12,20.35a4,4,0,1,0,4.08,4A4.06,4.06,0,0,0,24.12,20.35Zm0,6.46a2.43,2.43,0,1,1,2.48-2.43A2.46,2.46,0,0,1,24.12,26.82Z"></path><path d="M33.83,23.43a1.16,1.16,0,0,0-.71-1.12l-1.68-.5c-.09-.24-.18-.48-.29-.71l.78-1.44a1.16,1.16,0,0,0-.21-1.37l-1.42-1.41a1.16,1.16,0,0,0-1.37-.2l-1.45.76a7.84,7.84,0,0,0-.76-.32l-.48-1.58a1.15,1.15,0,0,0-1.11-.77h-2a1.16,1.16,0,0,0-1.11.82l-.47,1.54a7.76,7.76,0,0,0-.77.32l-1.42-.76a1.16,1.16,0,0,0-1.36.2l-1.45,1.4a1.16,1.16,0,0,0-.21,1.38L17.08,21a7.64,7.64,0,0,0-.31.74l-1.58.47a1.15,1.15,0,0,0-.83,1.11v2a1.15,1.15,0,0,0,.83,1.1l1.59.47a7.53,7.53,0,0,0,.31.72l-.78,1.46a1.16,1.16,0,0,0,.21,1.37l1.42,1.4a1.16,1.16,0,0,0,1.37.21l1.48-.78c.23.11.47.2.72.29L22,33.18a1.16,1.16,0,0,0,1.11.81h2a1.16,1.16,0,0,0,1.11-.82l.47-1.58c.24-.08.47-.18.7-.29l1.5.79a1.16,1.16,0,0,0,1.36-.2l1.42-1.4a1.16,1.16,0,0,0,.21-1.38l-.79-1.45q.16-.34.29-.69L33,26.5a1.15,1.15,0,0,0,.83-1.11Zm-1.6,1.63-2.11.62-.12.42a6,6,0,0,1-.5,1.19l-.21.38,1,1.91-1,1-2-1-.37.2a6.21,6.21,0,0,1-1.2.49l-.42.12-.63,2.09H23.42l-.63-2.08-.42-.12a6.23,6.23,0,0,1-1.21-.49l-.37-.2-1.94,1-1-1,1-1.94-.22-.38A6,6,0,0,1,18.17,26L18,25.63,16,25V23.69L18,23.08l.13-.41a5.94,5.94,0,0,1,.53-1.23L18.9,21l-1-1.85,1-.94,1.89,1,.38-.21a6.23,6.23,0,0,1,1.26-.52l.41-.12.63-2h1.38l.62,2,.41.12A6.21,6.21,0,0,1,27.1,19l.38.21,1.92-1,1,1-1,1.89.21.38a6.08,6.08,0,0,1,.5,1.21l.12.42,2.06.61Z"></path><path d="M14.49,31H6V5H21.87L23,3H6A2,2,0,0,0,4,5V31a2,2,0,0,0,2,2H16.23l-1.1-1.08A3.11,3.11,0,0,1,14.49,31Z"></path><path d="M26.85,1.14,21.13,11A1.28,1.28,0,0,0,22.23,13H33.68A1.28,1.28,0,0,0,34.78,11L29.06,1.14A1.28,1.28,0,0,0,26.85,1.14Z"></path>
+                  <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
+                </svg>
+            </button>
+        </div>
+
+    </div>
+</header>
+
+    <div class="settings-modal-overlay" id="settingsModalOverlay">
+        <div class="settings-modal" id="settingsModal">
+
+            <div class="settings-modal-header">
+                <h3 class="settings-modal-title">Configuración</h3>
+                <button class="settings-modal-close" id="settingsModalClose" aria-label="Cerrar">
+                    <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" data-iconid="390484" data-svgname="Basic cancel close cross delete exit"><path d="M2.32129 2.32363C2.72582 1.9191 3.38168 1.9191 3.78621 2.32363L25.6966 24.234C26.1011 24.6385 26.1011 25.2944 25.6966 25.6989C25.2921 26.1035 24.6362 26.1035 24.2317 25.6989L2.32129 3.78854C1.91676 3.38402 1.91676 2.72815 2.32129 2.32363Z" fill="currentColor"></path><path d="M25.6787 2.30339C25.2742 1.89887 24.6183 1.89887 24.2138 2.30339L2.30339 24.2138C1.89887 24.6183 1.89887 25.2742 2.30339 25.6787C2.70792 26.0832 3.36379 26.0832 3.76831 25.6787L25.6787 3.76831C26.0832 3.36379 26.0832 2.70792 25.6787 2.30339Z" fill="currentColor"></path></svg>
+                </button>
+            </div>
+
+            <div class="settings-tabs-nav">
+                <button class="settings-tab-btn active-tab" data-tab="profile">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-iconid="472034" data-svgname="User 03">
+                      <path d="M3 20C5.33579 17.5226 8.50702 16 12 16C15.493 16 18.6642 17.5226 21 20M16.5 7.5C16.5 9.98528 14.4853 12 12 12C9.51472 12 7.5 9.98528 7.5 7.5C7.5 5.01472 9.51472 3 12 3C14.4853 3 16.5 5.01472 16.5 7.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <span>Perfil</span>
+                </button>
+                <button class="settings-tab-btn" data-tab="personality">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-iconid="309599" data-svgname="Emoji laugh">
+                      <path d="M6.74927 12C6.53852 12 6.33749 12.0887 6.19539 12.2443C6.05329 12.4 5.98323 12.6082 6.00237 12.8181C6.28259 15.8916 8.55224 18.5 12 18.5C15.4478 18.5 17.7174 15.8916 17.9977 12.8181C18.0168 12.6082 17.9468 12.4 17.8047 12.2443C17.6626 12.0887 17.4616 12 17.2508 12H6.74927ZM12 17C9.74286 17 8.12852 15.5205 7.63237 13.5H16.3677C15.8715 15.5205 14.2571 17 12 17Z" fill="currentColor"></path>
+                      <path d="M15.2501 8.75C14.8416 8.75 14.5398 9.03719 14.492 9.35982C14.4314 9.76957 14.05 10.0526 13.6403 9.99192C13.2305 9.93126 12.9475 9.54993 13.0082 9.14018C13.1696 8.0495 14.1313 7.25 15.2501 7.25C16.3689 7.25 17.3306 8.0495 17.492 9.14018C17.5527 9.54993 17.2697 9.93126 16.8599 9.99192C16.4502 10.0526 16.0688 9.76957 16.0082 9.35982C15.9604 9.03719 15.6586 8.75 15.2501 8.75Z" fill="currentColor"></path>
+                      <path d="M7.99202 9.35982C8.03977 9.03719 8.34157 8.75 8.7501 8.75C9.15863 8.75 9.46043 9.03719 9.50818 9.35982C9.56884 9.76957 9.95017 10.0526 10.3599 9.99192C10.7697 9.93126 11.0527 9.54993 10.992 9.14018C10.8306 8.0495 9.86892 7.25 8.7501 7.25C7.63128 7.25 6.66963 8.0495 6.50818 9.14018C6.44753 9.54993 6.73053 9.93126 7.14028 9.99192C7.55003 10.0526 7.93136 9.76957 7.99202 9.35982Z" fill="currentColor"></path>
+                      <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM3.5 12C3.5 7.30558 7.30558 3.5 12 3.5C16.6944 3.5 20.5 7.30558 20.5 12C20.5 16.6944 16.6944 20.5 12 20.5C7.30558 20.5 3.5 16.6944 3.5 12Z" fill="currentColor"></path>
+                  </svg>
+                    <span>Personalidad</span>
+                </button>
+                <button class="settings-tab-btn" data-tab="model">
+                    <svg fill="currentColor" width="20" height="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" data-iconid="313880" data-svgname="Ello"><path d="M 16 3 C 8.832 3 3 8.832 3 16 C 3 23.168 8.832 29 16 29 C 23.168 29 29 23.168 29 16 C 29 8.832 23.168 3 16 3 z M 16 5 C 22.065 5 27 9.935 27 16 C 27 22.065 22.065 27 16 27 C 9.935 27 5 22.065 5 16 C 5 9.935 9.935 5 16 5 z M 9.0800781 17 C 9.5680781 20.387 12.481 23 16 23 C 19.519 23 22.431922 20.387 22.919922 17 L 20.898438 17 C 20.433438 19.279 18.415 21 16 21 C 13.585 21 11.566563 19.279 11.101562 17 L 9.0800781 17 z"></path></svg>
+                    <span>Modelos de IA</span>
+                </button>
+                <button class="settings-tab-btn" data-tab="preferences">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-iconid="325103" data-svgname="Divide selection 1">
+                      <path d="M20 20H4V16H20V20Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M2 12H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M7 4H4V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M11 4H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M17 4H20V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    <span>Preferencias</span>
+                </button>
+            </div>
+
+            <div class="settings-tabs-content">
+
+                <div class="settings-tab-pane active-pane" id="tab-profile">
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">¿Cómo debería llamarte?</h3>
+                        <div class="profile-container">
+                            <div class="avatar-name">
+                                <h3 class="profile-initial" id="profileInitial">Z</h3>
+                            </div>
+                        </div>
+                        <div class="settings-section-content">
+                            <input type="text" class="settings-input" id="userNameInput" placeholder="Ej: Zenicero" value="">
+                            <div class="settings-button-group">
+                                <button class="settings-btn settings-btn-secondary" id="clearUserNameBtn">Limpiar</button>
+                                <button class="settings-btn settings-btn-primary" id="saveUserNameBtn">Guardar</button>
+                            </div>
+                            <p class="settings-input-hint">El bot te llamará por este nombre o apodo</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Idioma de chat</h3>
+                        <div class="settings-section-content">
+                            <div class="custom-select" id="languageSelectContainer">
+                                <div class="custom-select-trigger" id="languageSelectTrigger">
+                                    <span class="custom-select-value">Cargando idiomas...</span>
+                                    <span class="custom-select-arrow">▼</span>
+                                </div>
+                                <div class="custom-select-dropdown" id="languageSelectDropdown"></div>
+                            </div>
+                            <p class="settings-select-hint" id="languageCountHint">-- idiomas disponibles</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-tab-pane" id="tab-personality">
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Personalidad de Alondra</h3>
+                        <div class="settings-section-content">
+                            <div class="custom-select" id="personalitySelectContainer">
+                                <div class="custom-select-trigger" id="personalitySelectTrigger">
+                                    <span class="custom-select-value">Profesional</span>
+                                    <span class="custom-select-arrow">▼</span>
+                                </div>
+                                <div class="custom-select-dropdown" id="personalitySelectDropdown">
+                                    <div class="custom-select-option" data-value="profesional">
+                                        <strong>Profesional</strong>
+                                        <small>Formal, preciso y directo</small>
+                                    </div>
+                                    <div class="custom-select-option" data-value="amigable">
+                                        <strong>Amigable</strong>
+                                        <small>Cálido, cercano y conversacional</small>
+                                    </div>
+                                    <div class="custom-select-option" data-value="creativo">
+                                        <strong>Creativo</strong>
+                                        <small>Imaginativo, con ejemplos y analogías</small>
+                                    </div>
+                                    <div class="custom-select-option" data-value="divertido">
+                                        <strong>Divertido</strong>
+                                        <small>Humorístico, con emojis y tono relajado</small>
+                                    </div>
+                                    <div class="custom-select-option" data-value="educativo">
+                                        <strong>Educativo</strong>
+                                        <small>Didáctico, paciente y explicativo</small>
+                                    </div>
+                                    <div class="custom-select-option" data-value="sarcastica">
+                                        <strong>Sarcástica</strong>
+                                        <small>Puede contener lenguajes inapropiado.</small>
+                                    </div>
+                                    <div class="custom-select-option" data-value="humana">
+                                        <strong>Humana</strong>
+                                        <small>Natural, informal, conversacional.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-tab-pane" id="tab-model">
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Modelo Preferido</h3>
+                        <div class="settings-section-content">
+                            <div class="custom-select" id="modelSelectContainer">
+                                <div class="custom-select-trigger" id="modelSelectTrigger">
+                                    <span class="custom-select-value">Cargando modelos...</span>
+                                    <span class="custom-select-arrow">▼</span>
+                                </div>
+                                <div class="custom-select-dropdown" id="modelSelectDropdown"></div>
+                            </div>
+                            <p class="settings-select-hint">Modelo predeterminado al inicio. Nota: Algunos modelos pueden requerir suscripción.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Temperatura - Creatividad</h3>
+                        <p class="settings-select-hint">Preciso (0) · Balanceado (0.5) · Creativo (1)</p>
+                        <div class="settings-section-content">
+                            <div class="slider-modern-container">
+                                <div class="slider-modern-labels">
+                                    <span class="slider-label-precise">Preciso</span>
+                                    <span class="slider-value" id="temperatureValue">0.7</span>
+                                    <span class="slider-label-creative">Creativo</span>
+                                </div>
+                                <div class="slider-modern-track" id="sliderTrack">
+                                    <div class="slider-modern-fill" id="sliderFill"></div>
+                                    <div class="slider-modern-thumb" id="sliderThumb"></div>
+                                </div>
+                                <div class="slider-modern-scale">
+                                    <span>0</span>
+                                    <span>0.2</span>
+                                    <span>0.4</span>
+                                    <span>0.6</span>
+                                    <span>0.8</span>
+                                    <span>1</span>
+                                </div>
+                                <input type="range" id="temperatureSlider" min="0" max="1" step="0.1" value="0.7" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-tab-pane" id="tab-preferences">
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Preferencias del Chat</h3>
+                        <div class="settings-section-content">
+                            <div class="settings-switch-wrapper">
+                                <span class="settings-switch-label">Enviar con Enter</span>
+                                <label class="settings-switch">
+                                    <input type="checkbox" id="enterToSendCheckbox" checked>
+                                    <span class="settings-switch-slider"></span>
+                                </label>
+                            </div>
+                            <p class="settings-switch-hint">En desktop: Enter envía, Shift+Enter nueva línea. En móvil: Enter siempre nueva línea.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Color de acento</h3>
+                        <div class="settings-section-content">
+                            <div class="custom-select" id="accentColorSelectContainer">
+                                <div class="custom-select-trigger" id="accentColorSelectTrigger">
+                                    <span class="custom-select-value">
+                                        <span class="color-preview" style="background: #2C2C2E;"></span>
+                                        Predeterminado
+                                    </span>
+                                    <span class="custom-select-arrow">▼</span>
+                                </div>
+                                <div class="custom-select-dropdown" id="accentColorSelectDropdown">
+                                    <div class="custom-select-option" data-value="#0A84FF">
+                                        <span class="color-preview" style="background: #0A84FF;"></span>
+                                        Predeterminado
+                                    </div>
+                                    <div class="custom-select-option" data-value="#2C2C2E">
+                                        <span class="color-preview" style="background: #2C2C2E;"></span>
+                                        Gris
+                                    </div>
+                                    <div class="custom-select-option" data-value="#00c230">
+                                        <span class="color-preview" style="background: #00c230;"></span>
+                                        Verde
+                                    </div>
+                                    <div class="custom-select-option" data-value="#ffd60a">
+                                        <span class="color-preview" style="background: #ffd60a;"></span>
+                                        Amarillo
+                                    </div>
+                                    <div class="custom-select-option" data-value="#2b001d">
+                                        <span class="color-preview" style="background: #2b001d;"></span>
+                                        Rosa
+                                    </div>
+                                    <div class="custom-select-option" data-value="#af6a00">
+                                        <span class="color-preview" style="background: #af6a00;"></span>
+                                        Naranja
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="settings-select-hint">Cambia el color de fondo de tus mensajes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="version-website">Versión: 1.1.3</p>
+        </div>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="message-container" id="messageContainer">
+            <div class="welcome-chat">
+    <div class="welcome-header">
+        <h3 id="welcome-user-greeting">Hola, User</h3>
+        <h1>¿Qué eliges hacer hoy?</h1>
+    </div>
+
+    <div class="chips-container">
+    <button class="chip" onclick="fillChat('💡 Dame una idea creativa para...')">
+        <span>💡</span> Dame una idea
+    </button>
+    <button class="chip" onclick="fillChat('🧠 Explícame como si tuviera 5 años...')">
+        <span>🧠</span> Explícame algo
+    </button>
+    <button class="chip" onclick="fillChat('📚 Ayúdame a aprender sobre la...')">
+        <span>📚</span> Ayúdame a aprender 
+    </button>
+    <button class="chip" onclick="fillChat('🕵️ Encuentra el error lógico en este texto: ')">
+        <span>🕵️</span> Análisis lógico
+    </button>
+</div>
+
+</div>
+
+            <div class="messages-dynamic" id="messagesDynamic"></div>
+        </div>
+
+        <div class="message-area" id="messageArea">
+            <div class="input-container">
+
+                <div class="textarea-wrapper">
+                    <textarea class="chat-textarea" id="chatTextarea" placeholder="Mensaje a Alondra" rows="1" data-virtualkeyboard="true"></textarea>
+                </div>
+
+                <div class="input-toolbar">
+                    <div class="toolbar-left">
+                        <button class="toolbar-btn think-btn" id="thinkBtn" aria-label="Pensar">
+                            <svg fill="currentColor" width="20" height="20" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg" data-iconid="363333" data-svgname="Atom duotone">
+                               <path d="M210.02441,210.02441c-17.1831,17.18311-67.83642-5.61084-113.1372-50.91162S28.79248,63.15869,45.97559,45.97559s67.83642,5.61084,113.1372,50.91162S227.20752,192.84131,210.02441,210.02441Z" opacity="0.2"></path>
+                               <path d="M196.09521,128a195.65007,195.65007,0,0,0,19.2002-32.71777c11.07715-24.61524,11.21436-44.13575.38574-54.96387C198.23291,22.87354,162.541,35.40918,128,60.00342,93.459,35.40894,57.76709,22.87256,40.31885,40.31836,29.49023,51.14648,29.62744,70.667,40.70459,95.28223A195.65007,195.65007,0,0,0,59.90479,128a195.65007,195.65007,0,0,0-19.2002,32.71777c-11.07715,24.61524-11.21436,44.13575-.38574,54.96387,5.61767,5.61719,13.12549,8.127,21.87842,8.127,18.4331,0,42.38232-11.1394,65.80273-27.81616,23.42041,16.677,47.36914,27.81616,65.80273,27.81616,8.75,0,16.26172-2.51074,21.87842-8.127,10.82862-10.82812,10.69141-30.34863-.38574-54.96387A195.65007,195.65007,0,0,0,196.09521,128Zm-2.31982-79.7002c4.77539,0,8.39453,1.13575,10.59229,3.333,5.62451,5.624,4.25537,19.48731-3.66309,37.084a172.9306,172.9306,0,0,1-14.79053,25.93188,306.72561,306.72561,0,0,0-21.14453-23.41821,300.50739,300.50739,0,0,0-23.48389-21.13184C163.18457,55.21191,182.00049,48.2998,193.77539,48.2998ZM176.12061,128a288.40831,288.40831,0,0,1-22.66456,25.45508,288.63877,288.63877,0,0,1-25.45459,22.69873A288.50733,288.50733,0,0,1,102.544,153.45508,288.40831,288.40831,0,0,1,79.87939,128,296.26257,296.26257,0,0,1,128,79.84717a288.52058,288.52058,0,0,1,25.45605,22.69775A288.40831,288.40831,0,0,1,176.12061,128ZM55.29541,88.7168c-7.91846-17.59668-9.2876-31.46-3.66309-37.084,2.19776-2.19824,5.815-3.333,10.59229-3.333,11.77539,0,30.59131,6.91285,52.48975,21.79908A300.45376,300.45376,0,0,0,91.23047,91.23047a306.72561,306.72561,0,0,0-21.14453,23.41821A172.9306,172.9306,0,0,1,55.29541,88.7168ZM51.63232,204.36719c-5.62451-5.624-4.25537-19.48731,3.66309-37.084a172.9306,172.9306,0,0,1,14.79053-25.93188,306.72561,306.72561,0,0,0,21.14453,23.41821,300.52025,300.52025,0,0,0,23.4917,21.13233C83.93506,206.83276,59.24854,211.98193,51.63232,204.36719Zm152.73536,0c-2.19776,2.19824-5.815,3.333-10.59229,3.333-11.77588-.00123-30.59326-6.91456-52.49316-21.80176a300.51532,300.51532,0,0,0,23.4873-21.12891,306.72561,306.72561,0,0,0,21.14453-23.41821,172.9306,172.9306,0,0,1,14.79053,25.93188C208.62305,184.87988,209.99219,198.74316,204.36768,204.36719ZM140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128Z"></path>
+                            </svg>
+                            Pensar
+                        </button>
+                        <button class="toolbar-btn search-btn" id="searchBtn" aria-label="Buscar">
+                          <svg fill="currentColor" width="20" height="20" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-iconid="372782" data-svgname="World outline badged">
+                             <title>world-outline-badged</title>
+                             <path d="M33.12,12.81a7.44,7.44,0,0,1-1.91.58,14.05,14.05,0,1,1-8.6-8.6,7.43,7.43,0,0,1,.58-1.91,16.06,16.06,0,1,0,9.93,9.93Z" class="clr-i-outline--badged clr-i-outline-path-1--badged"></path><path d="M20.25,5.77a17.83,17.83,0,0,1,3.89,6.59H18.75V5.6c-.25,0-.51,0-.77,0s-.49,0-.73,0v6.77H11.86a17.83,17.83,0,0,1,3.9-6.6,12.28,12.28,0,0,0-2.54.75,19.72,19.72,0,0,0-2.91,5.85H6.94A12.3,12.3,0,0,0,6.26,14H9.89a19.38,19.38,0,0,0-.43,4,19.67,19.67,0,0,0,.5,4.37H6.42A12.34,12.34,0,0,0,7.16,24h3.23a19.32,19.32,0,0,0,2.69,5.36,12.28,12.28,0,0,0,2.61.79A17.91,17.91,0,0,1,12,24h5.26v6.34c.24,0,.49,0,.73,0s.51,0,.77,0V24H24a17.9,17.9,0,0,1-3.7,6.15,12.28,12.28,0,0,0,2.62-.81A19.32,19.32,0,0,0,25.61,24h3.2a12.34,12.34,0,0,0,.74-1.6H26a19.67,19.67,0,0,0,.5-4.37,19.38,19.38,0,0,0-.43-4h3.6c-.06-.17-.12-.33-.19-.49a7.45,7.45,0,0,1-3.47-1.11h-.36c0-.11-.08-.21-.11-.32a7.48,7.48,0,0,1-3.06-5.62A12.41,12.41,0,0,0,20.25,5.77Zm-3,16.59H11.51a17.69,17.69,0,0,1-.09-8.4h5.83ZM25,18a18.12,18.12,0,0,1-.55,4.37H18.75V14h5.83A18.21,18.21,0,0,1,25,18Z" class="clr-i-outline--badged clr-i-outline-path-2--badged"></path><circle cx="30" cy="6" r="5" class="clr-i-outline--badged clr-i-outline-path-3--badged clr-i-badge"></circle>
+                             <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
+                          </svg>
+                            Buscar
+                        </button>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="send-btn send-active" id="sendBtn" aria-label="Enviar mensaje">
+                            <svg fill="currentColor" width="20" height="20" viewBox="0 0 32 32" id="Outlined" xmlns="http://www.w3.org/2000/svg" data-iconid="418580" data-svgname="Outlined send message">
+                              <title></title>
+                              <g id="Fill">
+                                <path d="M28.11,13.32,2.13,2.1,7.44,14.85a3.05,3.05,0,0,1,0,2.3L2.13,29.88l26-11a3,3,0,0,0,0-5.51ZM27.31,17,5.87,26.12l3.41-8.2A4.42,4.42,0,0,0,9.56,17H20V15H9.56a4.42,4.42,0,0,0-.28-.92L5.87,5.9l21.45,9.25a1,1,0,0,1,.6.92A1,1,0,0,1,27.31,17Z"></path>
+                              </g>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <p class="note-hint">© 2026, Wanda Corporation, LLC. <a href="legals.html" target="_blank">Términos legales.</a></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+    <script src="js/api-config.js"></script>
+    <script src="js/system-prompt.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/script-basic.js"></script>
+
+</body>
+
+</html>
