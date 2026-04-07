@@ -83,10 +83,10 @@ a:hover {
   --text-3xl: clamp(2rem, 1.8rem + 1.2vw, 2.5rem);        /* 32px → 40px */
   
   /* === ESPACIADOS === */
-  --spacing-xs: clamp(0.25rem, 0.2rem + 0.3vw, 0.5rem);
+  --spacing-xs: clamp(0.35rem, 0.8rem + 0.3vw, 0.8rem);
   --spacing-sm: clamp(0.5rem, 0.4rem + 0.4vw, 0.75rem);
   --spacing-md: clamp(0.75rem, 0.6rem + 0.5vw, 1rem);
-  --spacing-lg: clamp(1rem, 0.8rem + 0.6vw, 1.5rem);
+  --spacing-lg: clamp(1.4rem, 0.9rem + 0.6vw, 1.5rem);
   --spacing-xl: clamp(1.5rem, 1.2rem + 0.8vw, 2rem);
   
   /* === BORDES === */
@@ -164,10 +164,6 @@ a:hover {
     scroll-behavior: auto !important;
   }
 }
-
-/* ============================================
-   PERA AI - HEADER MODERNO
-   ============================================ */
 
 /* --------------------------------------------
    1. CONTENEDOR PRINCIPAL DEL HEADER
@@ -1245,7 +1241,7 @@ a:hover {
 .toolbar-btn {
   width: auto;
   padding: var(--spacing-xs) var(--spacing-md);
-  height: 35px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1295,11 +1291,11 @@ a:hover {
 .welcome-chat {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Alineado a la izquierda como Gemini */
+    align-items: flex-start;
     justify-content: center;
     padding: 40px 15px;
     gap: 2rem;
-    animation: lucidFade 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    height: 100%;
 }
 
 .welcome-header h3 {
@@ -1312,7 +1308,7 @@ a:hover {
 .welcome-header h1 {
     color: #ffffff;
     font-size: 2.1rem;
-    font-weight: 500;
+    font-weight: 400;
     margin: 0;
 }
 
@@ -1323,7 +1319,7 @@ a:hover {
     align-items: flex-start;
     gap: 12px;
     width: 100%;
-    animation: lucidFade 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s backwards;
+    animation: lucidFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s backwards;
 }
 
 .chip {
@@ -1359,15 +1355,18 @@ a:hover {
 
 /* Tablets, Laptops y PCs (Grid) */
 @media (min-width: 768px) {
+    .welcome-chat{
+      height: 0;
+      padding: 80px 15px;
+    }
     .chips-container {
         display: grid;
-        /* Cambia a columnas cuando hay espacio */
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
-        align-items: stretch; /* En PC sí pueden tener anchos uniformes si prefieres */
+        align-items: stretch; 
     }
     
     .chip {
-        width: 100%; /* En modo grid ocupan su celda */
+        width: 100%;
         justify-content: flex-start;
     }
 }
@@ -1552,8 +1551,8 @@ a:hover {
   }
   
   .send-btn {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
   
   
@@ -1593,7 +1592,6 @@ a:hover {
   }
   
   .settings-button-group {
-    flex-direction: column;
     gap: var(--spacing-sm);
   }
   
@@ -1632,5 +1630,18 @@ a:hover {
   
   .toolbar-left {
     gap: var(--spacing-xs);
+  }
+  
+  .toolbar-btn{
+    width: 30px;
+    height: 30px;
+  }
+  
+  .toolbar-btn svg{
+    flex-shrink: 0;
+  }
+  
+  .toolbar-btn > .btn-text{
+    display: none;
   }
 }
