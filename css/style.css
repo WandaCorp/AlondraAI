@@ -32,6 +32,7 @@ a:hover {
   color: var(--accent-hover);
 }
 
+
 /* ===== SISTEMA DE VARIABLES MODULAR ===== */
 :root {
   /* === COLORES PRINCIPALES === */
@@ -522,8 +523,8 @@ a:hover {
 .settings-modal {
   width: 100%;
   max-width: 580px;
-  height: 95vh;
-  max-height: 85vh;
+  height: 98vh;
+  max-height: 95vh;
   background: var(--bg-modal);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   display: flex;
@@ -598,11 +599,11 @@ a:hover {
   gap: var(--spacing-xs);
   padding: var(--spacing-md) var(--spacing-lg);
   background: transparent;
-  border: 1px solid var(--border-medium);
+  border: none;
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--text-tertiary);
+  color: var(--text-primary);
   transition: var(--transition-default);
   white-space: nowrap;
   flex-shrink: 0;
@@ -1568,7 +1569,7 @@ a:hover {
   
   .settings-modal {
     width: 100%;
-    max-height: 95%;
+    max-height: 98%;
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
     animation: modalSlideUpMobile var(--transition-slow);
   }

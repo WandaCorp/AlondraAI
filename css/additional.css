@@ -1,3 +1,7 @@
+html, body{
+  font-family: var(--font-family);
+}
+
 .typing-indicator-container {
     opacity: 1;
     transition: all 0.3s ease;
@@ -83,7 +87,6 @@
     overflow: hidden;
     background-color: #1a1b1e;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .code-header {
@@ -179,5 +182,72 @@
 
     .code-copy-btn .material-symbols-outlined {
         font-size: 1rem;
+    }
+}
+
+/* ===== RATE LIMIT NOTICE ===== */
+.rate-limit-notice {
+    margin: 20px auto;
+    max-width: 80%;
+}
+
+.rate-limit-bubble {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 24px 20px !important;
+    background: transparent;
+    border-radius: 20px;
+}
+
+.rate-limit-bubble p {
+    margin: 0;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.rate-limit-acknowledge-btn {
+    background: #ffffff;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 12px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    width: 85%;
+    color: #000000;
+    transition: all 0.2s ease;
+}
+
+.rate-limit-acknowledge-btn:hover {
+    background: #f2f2f2;
+    transform: scale(1.02);
+}
+
+.rate-limit-acknowledge-btn:active {
+    transform: scale(0.98);
+}
+
+/* Responsive móvil */
+@media (max-width: 768px) {
+    .rate-limit-notice {
+        max-width: 95%;
+    }
+    
+    .rate-limit-bubble {
+        padding: 20px 16px !important;
+    }
+    
+    .rate-limit-bubble p {
+        font-size: 0.85rem;
+    }
+    
+    .rate-limit-acknowledge-btn {
+        padding: 12px 15px;
+        font-size: 18px;
     }
 }

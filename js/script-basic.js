@@ -8,6 +8,96 @@
 // ===== VARIABLES GLOBALES =====
 let editingMessage = null;  // Mensaje en edición
 
+// ===== RATE LIMIT SYSTEM =====
+
+const RATE_LIMIT_MAX = 5;  // 5 mensajes por hora
+const RATE_LIMIT_KEY = 'pera_rate_limit';
+
+/**
+ * Obtiene el estado actual del rate limit desde localStorage
+ * @returns {Object} - { count: number, resetTimestamp: number | null }
+ */
+function getRateLimitState() {
+    const stored = localStorage.getItem(RATE_LIMIT_KEY);
+    if (!stored) {
+        return { count: 0, resetTimestamp: null };
+    }
+    
+    try {
+        return JSON.parse(stored);
+    } catch (e) {
+        return { count: 0, resetTimestamp: null };
+    }
+}
+
+/**
+ * Guarda el estado del rate limit en localStorage
+ * @param {number} count - Número de mensajes usados
+ * @param {number|null} resetTimestamp - Timestamp de reseteo (null si no hay límite alcanzado)
+ */
+function saveRateLimitState(count, resetTimestamp) {
+    const state = { count, resetTimestamp };
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(state));
+}
+
+/**
+ * Verifica si el rate limit actual permite enviar un nuevo mensaje
+ * También maneja el reseteo automático si pasó 1 hora desde el bloqueo
+ * @returns {boolean} - true si se puede enviar, false si está bloqueado
+ */
+function checkRateLimit() {
+    const state = getRateLimitState();
+    
+    // Si hay un timestamp de reseteo y ya pasó la hora
+    if (state.resetTimestamp && Date.now() >= state.resetTimestamp) {
+        // Resetear el contador
+        saveRateLimitState(0, null);
+        return true;
+    }
+    
+    // Si no hay bloqueo activo y el contador es menor al máximo
+    if (!state.resetTimestamp && state.count < RATE_LIMIT_MAX) {
+        return true;
+    }
+    
+    // Está bloqueado
+    return false;
+}
+
+/**
+ * Incrementa el contador de rate limit
+ * Si alcanza el límite, guarda el timestamp de reseteo (1 hora desde ahora)
+ */
+function incrementRateLimit() {
+    const state = getRateLimitState();
+    const newCount = state.count + 1;
+    
+    if (newCount >= RATE_LIMIT_MAX) {
+        // Alcanzó el límite: guardar timestamp de reseteo (1 hora desde ahora)
+        const resetTimestamp = Date.now() + (60 * 60 * 1000); // 1 hora en ms
+        saveRateLimitState(RATE_LIMIT_MAX, resetTimestamp);
+    } else {
+        // Aún tiene crédito
+        saveRateLimitState(newCount, null);
+    }
+}
+
+/**
+ * Obtiene el tiempo restante del bloqueo en formato legible
+ * @returns {string|null} - Tiempo restante o null si no está bloqueado
+ */
+function getRateLimitRemainingTime() {
+    const state = getRateLimitState();
+    
+    if (!state.resetTimestamp) return null;
+    
+    const remaining = state.resetTimestamp - Date.now();
+    if (remaining <= 0) return null;
+    
+    const minutes = Math.ceil(remaining / (60 * 1000));
+    return `${minutes} minuto${minutes !== 1 ? 's' : ''}`;
+}
+
 // ===== INICIALIZACIÓN =====
 document.addEventListener('DOMContentLoaded', () => {
     initUI();
@@ -144,6 +234,11 @@ function initSettingsControls() {
                     window.updateWelcomeGreeting();
                 }
                 
+                // FORZAR RESET DEL CONTEXTO PARA QUE EL NUEVO NOMBRE HAGA EFECTO 
+                if(typeof window.clearContext === 'function') {
+                  window.clearContext();
+                }
+                
                 saveNameBtn.textContent = '✓ Guardado';
                 setTimeout(() => {
                     saveNameBtn.textContent = 'Guardar';
@@ -157,6 +252,10 @@ function initSettingsControls() {
     if (enterToSendCheckbox) {
         const savedValue = localStorage.getItem('pera_enter_to_send') !== 'false';
         enterToSendCheckbox.checked = savedValue;
+        
+        if(typeof window.setEnterToSend === 'function') {
+          window.setEnterToSend(savedValue);
+        }
         
         enterToSendCheckbox.addEventListener('change', (e) => {
             const value = e.target.checked;
@@ -501,7 +600,7 @@ function observeNewUserBubbles() {
                 if (node.nodeType === 1 && node.classList && node.classList.contains('message-user')) {
                     const bubble = node.querySelector('.bubble');
                     if (bubble) {
-                        const savedColor = localStorage.getItem('pera_accent_color') || '#2C2C2E';
+                        const savedColor = localStorage.getItem('pera_accent_color') || '#0A84FF';
                         bubble.style.backgroundColor = savedColor;
                     }
                 }
@@ -645,17 +744,22 @@ function loadSettingsToUI() {
 // ===== MANEJO DE MENSAJES =====
 
 /**
- * Maneja el envío de un mensaje
+ * Maneja el envío de un mensaje (con rate limit integrado)
  */
 async function handleSendMessage() {
     const message = chatTextarea.value.trim();
     if (!message || isTyping) return;
     
+    // Edición de mensaje NO aplica rate limit
     if (editingMessage) {
         await handleEditMessage(message);
         return;
     }
     
+    // === RATE LIMIT CHECK ===
+    const canSend = checkRateLimit();
+    
+    // Siempre mostrar la burbuja del usuario (visible para él)
     if (typeof window.hideWelcomeChat === 'function') {
         window.hideWelcomeChat();
     }
@@ -667,6 +771,21 @@ async function handleSendMessage() {
     resetTextarea();
     scrollToBottom();
     
+    // Si está bloqueado por rate limit
+    if (!canSend) {
+        const remainingTime = getRateLimitRemainingTime();
+        console.log(`[Rate Limit] Bloqueado. Tiempo restante: ${remainingTime}`);
+        
+        // Mostrar nota de rate limit (reemplaza cualquier nota existente)
+        const noticeElement = window.createRateLimitNotice();
+        if (noticeElement) {
+            messagesDynamic.appendChild(noticeElement);
+            scrollToBottom();
+        }
+        return; // No llamar a la API
+    }
+    
+    // === FLUJO NORMAL (con crédito disponible) ===
     const messagesWithContext = formatMessages(message);
     currentStreamingMessage = '';
     
@@ -679,13 +798,16 @@ async function handleSendMessage() {
         
         hideTypingIndicator();
         finalizeStreamingMessage();
+        scrollToBottom();
+        
+        // Incrementar contador SOLO si la API respondió exitosamente
+        incrementRateLimit();
         
         if (typeof window.marcarSaludoComoHecho === 'function' && localStorage.getItem('pera_user_name')) {
             window.marcarSaludoComoHecho();
         }
         
         addToContext({ role: 'assistant', content: currentStreamingMessage });
-        scrollToBottom();
         
     } catch (error) {
         hideTypingIndicator();
@@ -693,6 +815,8 @@ async function handleSendMessage() {
         const errorBubble = createBotBubble(`❌ Error: ${error.message}`);
         messagesDynamic.appendChild(errorBubble);
         scrollToBottom();
+        
+        // NO incrementar rate limit en caso de error
     }
 }
 
@@ -717,6 +841,7 @@ function handleModelToggle(type, button) {
 
 /**
  * Maneja la creación de un nuevo chat
+ * También elimina cualquier nota de rate limit visible
  */
 function handleNewChat() {
     if (typeof window.clearContext === 'function') {
@@ -724,6 +849,12 @@ function handleNewChat() {
     }
     
     messagesDynamic.innerHTML = '';
+    
+    // Eliminar nota de rate limit si existe
+    const existingNotice = document.getElementById('rateLimitNotice');
+    if (existingNotice) {
+        existingNotice.remove();
+    }
     
     if (typeof window.setActiveModel === 'function') {
         window.setActiveModel('openai');
@@ -850,4 +981,3 @@ function handleModelToggle(type, button) {
 
 // ===== EXPORTACIONES GLOBALES =====
 window.updateProfileInitial = updateProfileInitial;
-window.editingMessage = editingMessage;

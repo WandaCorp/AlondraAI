@@ -124,7 +124,7 @@ function createBotBubble(message) {
     actionsDiv.innerHTML = `
         <button class="action-btn copy-btn" aria-label="Copiar mensaje" onclick="window.copyMessage(this)">
             <svg width="21" height="21" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" data-iconid="500521" data-svgname="Copy document"><path fill="currentColor" d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64h64z"></path><path fill="currentColor" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64H384zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64z"></path></svg>
-        </button> 
+        </button>
     `;
     
     messageDiv.appendChild(bubbleDiv);
@@ -477,6 +477,82 @@ function updateWelcomeGreeting() {
     }
 }
 
+// ===== RATE LIMIT NOTICE =====
+/**
+ * Crea la nota visual de rate limit (centrada, con botón Entendido)
+ * Reemplaza cualquier nota anterior existente para evitar duplicados
+ * @returns {HTMLElement} - Elemento DOM de la nota
+ */
+function createRateLimitNotice() {
+    // Eliminar nota existente si hay
+    const existingNotice = document.getElementById('rateLimitNotice');
+    if (existingNotice) {
+        existingNotice.remove();
+    }
+    
+    const noticeDiv = document.createElement('div');
+    noticeDiv.className = 'message-ia rate-limit-notice';
+    noticeDiv.id = 'rateLimitNotice';
+    
+    const bubbleDiv = document.createElement('div');
+    bubbleDiv.className = 'bubble bot-bubble rate-limit-bubble';
+  
+    bubbleDiv.innerHTML = `
+        <svg fill="currentColor" width="80" height="80" viewBox="0 0 32 32" id="Outlined" xmlns="http://www.w3.org/2000/svg" data-iconid="418569" data-svgname="Outlined warning alert">
+           <title></title>
+            <g id="Fill">
+             <path d="M29.68,25.6l-11-21.92a3,3,0,0,0-5.44,0L2.32,25.6A3,3,0,0,0,5,30H27a3,3,0,0,0,2.72-4.4Zm-1.84,1.91A1,1,0,0,1,27,28H5a1,1,0,0,1-.88-.49,1,1,0,0,1,0-1l11-21.93h0a1,1,0,0,1,1.86,0l11,21.93A1,1,0,0,1,27.84,27.51Z"></path>
+             <rect height="9" width="2" x="15" y="11"></rect>
+             <circle cx="16" cy="24" r="2"></circle>
+            </g>
+        </svg>
+        <p style="margin: 0; line-height: 1.5; font-size: 17px;">
+            Alondra está presentando un uso intensivo en estos momentos. Por favor inténtelo nuevamente más tarde.
+        </p>
+        <button class="rate-limit-acknowledge-btn">
+            Entendido
+        </button>
+    `;
+    
+    noticeDiv.appendChild(bubbleDiv);
+    
+    // Evento del botón Entendido
+    const acknowledgeBtn = bubbleDiv.querySelector('.rate-limit-acknowledge-btn');
+    if (acknowledgeBtn) {
+        acknowledgeBtn.addEventListener('click', () => {
+            // Limpiar UI como handleNewChat() pero SIN resetear contador
+            if (typeof window.clearContext === 'function') {
+                window.clearContext();
+            }
+            
+            const messagesDynamic = document.getElementById('messagesDynamic');
+            if (messagesDynamic) {
+                messagesDynamic.innerHTML = '';
+            }
+            
+            if (typeof window.showWelcomeChat === 'function') {
+                window.showWelcomeChat();
+            }
+            
+            const thinkBtn = document.getElementById('thinkBtn');
+            const searchBtn = document.getElementById('searchBtn');
+            if (thinkBtn) thinkBtn.classList.remove('active');
+            if (searchBtn) searchBtn.classList.remove('active');
+            
+            const chatTextarea = document.getElementById('chatTextarea');
+            if (chatTextarea && !chatTextarea.matches(':focus')) {
+                const messageArea = document.getElementById('messageArea');
+                if (messageArea) messageArea.classList.remove('sticky');
+            }
+            
+            // Eliminar la nota
+            noticeDiv.remove();
+        });
+    }
+    
+    return noticeDiv;
+}
+
 // Llamar al cargar la página
 document.addEventListener('DOMContentLoaded', updateWelcomeGreeting);
 
@@ -498,3 +574,4 @@ window.hideWelcomeChat = hideWelcomeChat;
 window.showWelcomeChat = showWelcomeChat;
 window.checkWelcomeChatOnLoad = checkWelcomeChatOnLoad;
 window.updateWelcomeGreeting = updateWelcomeGreeting;
+window.createRateLimitNotice = createRateLimitNotice;
