@@ -25,7 +25,7 @@ html, body{
     height: 8px;
     background-color: #ccc;
     border-radius: 50%;
-    animation: typingWave 300ms infinite ease-in-out;
+    animation: typingWave 200ms infinite ease-in-out;
 }
 
 .typing-dot:nth-child(2) {

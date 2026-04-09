@@ -23,8 +23,8 @@ body::-webkit-scrollbar {
 }
 
 a {
-  color: var(--accent-color);
-  text-decoration: none;
+  color: #ffffff;
+  text-decoration: underline;
   transition: var(--transition-default);
 }
 
@@ -243,9 +243,9 @@ a:hover {
 }
 
 .pera-brand__subtitle {
-    font-size: 0.7rem;
+    font-size: var(--text-sm);
     font-weight: 400;
-    color: #8e8e93;
+    color: #cccc;
     letter-spacing: 0.2px;
 }
 
@@ -396,7 +396,7 @@ a:hover {
     }
     
     .pera-brand__subtitle {
-        font-size: 0.65rem;
+        font-size: var(--text-sm);
     }
     
     /* Ajuste de iconos móviles */
@@ -431,7 +431,7 @@ a:hover {
     }
     
     .pera-brand__subtitle {
-        font-size: 0.6rem;
+        font-size: 0.8rem;
     }
     
     .pera-actions--mobile {
@@ -1274,8 +1274,8 @@ a:hover {
 }
 
 .note-hint{
-  font-size: var(--text-xs);
-  color: var(--text-hint);
+  font-size: var(--text-sm);
+  color: #fff;
   margin-top: var(--spacing-sm);
   margin-bottom: var(--spacing-sm);
   line-height: 1.5;
@@ -1293,8 +1293,8 @@ a:hover {
     height: 100%;
 }
 
-.welcome-header h3 {
-    color: #ccc; /* Gris suave */
+.welcome-header h2 {
+    color: #ffffff;
     font-size: 1.5rem;
     font-weight: 400;
     margin-bottom: 5px;
@@ -1320,7 +1320,7 @@ a:hover {
 .chip {
     background: rgba(42, 44, 46, 0.9);
     border: none;
-    color: white;
+    color: #ffffff;
     padding: 15px 18px;
     border-radius: 50px;
     cursor: pointer;
