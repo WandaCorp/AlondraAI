@@ -1096,12 +1096,6 @@ a:hover {
   margin-right: 10px;
 }
 
-/* Estilo dinámico para burbujas de usuario */
-.message-user .bubble {
-  background-color: var(--user-bubble-color);
-  transition: background-color var(--transition-default);
-}
-
 /* Acciones del mensaje */
 .message-actions {
   display: flex;
@@ -1376,7 +1370,7 @@ a:hover {
 .bot-bubble em,
 .bot-bubble i {
   font-style: italic;
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .bot-bubble strong,
@@ -1603,11 +1597,7 @@ a:hover {
 }
 
 @media screen and (max-width: 480px) {
-  .bubble {
-    max-width: 100%;
-    font-size: var(--text-base);
-  }
-  
+
   .user-bubble {
     max-width: 70% !important;
   }
