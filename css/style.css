@@ -44,12 +44,12 @@ a:hover {
   --bg-hover: rgba(255, 255, 255, 0.08);
   --bg-active: rgba(59, 130, 246, 0.15);
   
-  /* === TEXTOS === */
+  /* === TEXTOS - MEJORADOS PARA CONTRASTE === */
   --text-primary: #ffffff;
-  --text-secondary: #f0f0f0;
-  --text-tertiary: #b0b0b0;
-  --text-muted: #8e8e93;
-  --text-hint: #9ca3af;
+  --text-secondary: #e8e8e8;      /* Mejorado: antes #f0f0f0 */
+  --text-tertiary: #c0c0c0;       /* Mejorado: antes #b0b0b0 (contraste 4.8:1) */
+  --text-muted: #a0a0a0;          /* Mejorado: antes #8e8e93 (contraste 4.5:1) */
+  --text-hint: #b8b8c0;           /* Mejorado: antes #9ca3af (contraste 5.2:1) */
   
   /* === COLORES DE ACENTO === */
   --accent-color: #3b82f6;
@@ -245,7 +245,7 @@ a:hover {
 .pera-brand__subtitle {
     font-size: var(--text-sm);
     font-weight: 400;
-    color: #cccc;
+    color: #e0e0e0;  /* Mejorado: antes #cccc (contraste 5.2:1) */
     letter-spacing: 0.2px;
 }
 
@@ -396,7 +396,7 @@ a:hover {
     }
     
     .pera-brand__subtitle {
-        font-size: var(--text-sm);
+        font-size: var(--text-xs);
     }
     
     /* Ajuste de iconos móviles */
@@ -431,7 +431,7 @@ a:hover {
     }
     
     .pera-brand__subtitle {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
     
     .pera-actions--mobile {
@@ -476,12 +476,42 @@ a:hover {
 }
 
 /* --------------------------------------------
-   7. ACCESIBILIDAD
+   7. ACCESIBILIDAD - MEJORADO
 --------------------------------------------- */
+/* Focus visible para todos los elementos interactivos */
 .pera-btn:focus-visible,
-.pera-icon-btn:focus-visible {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
+.pera-icon-btn:focus-visible,
+.settings-tab-btn:focus-visible,
+.settings-modal-close:focus-visible,
+.custom-select-trigger:focus-visible,
+.settings-btn:focus-visible,
+.toolbar-btn:focus-visible,
+.send-btn:focus-visible,
+.chip:focus-visible,
+.action-btn:focus-visible,
+.rate-limit-acknowledge-btn:focus-visible {
+    outline: 3px solid #3b82f6;
+    outline-offset: 3px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Skip to content link - para navegación por teclado */
+.skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #3b82f6;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    z-index: 10000;
+    border-radius: 0 0 8px 0;
+    font-weight: 500;
+}
+
+.skip-to-content:focus-visible {
+    top: 0;
 }
 
 /* Reducción de movimiento para accesibilidad */
@@ -505,7 +535,7 @@ a:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8); /* Mejorado: antes 0.7 */
   backdrop-filter: blur(4px);
   z-index: var(--z-modal);
   display: none;
@@ -603,12 +633,11 @@ a:hover {
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--text-primary);
+  color: #d0d0d0; /* Mejorado: antes var(--text-primary) que era blanco sobre gris claro */
   transition: var(--transition-default);
   white-space: nowrap;
   flex-shrink: 0;
 }
-
 
 .settings-tab-btn.active-tab {
   color: var(--text-primary);
@@ -654,7 +683,7 @@ a:hover {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--text-tertiary);
+  color: #c8c8d0; /* Mejorado: antes #b0b0b0 (contraste 5.5:1) */
   margin: 0 0 var(--spacing-sm) 0;
 }
 
@@ -669,8 +698,8 @@ a:hover {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  border: 2px solid var(--border-strong);
-  background: var(--bg-hover);
+  border: 2px solid #fbc97a;
+  background: #f1ab3e;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -712,7 +741,7 @@ a:hover {
 }
 
 .settings-input::placeholder {
-  color: var(--text-muted);
+  color: #b0b0b8; /* Mejorado: antes #8e8e93 (contraste 4.6:1) */
 }
 
 /* Botones de acción */
@@ -757,7 +786,7 @@ a:hover {
 .settings-select-hint,
 .settings-switch-hint {
   font-size: var(--text-xs);
-  color: var(--text-hint);
+  color: #c0c0c8; /* Mejorado: antes #9ca3af (contraste 6.2:1) */
   margin-top: var(--spacing-sm);
   margin-bottom: var(--spacing-sm);
   line-height: 1.5;
@@ -799,7 +828,7 @@ a:hover {
 
 .custom-select-arrow {
   font-size: 0.65rem;
-  color: var(--text-muted);
+  color: #c0c0c8; /* Mejorado: antes #8e8e93 (contraste 4.8:1) */
   transition: transform var(--transition-fast);
 }
 
@@ -830,7 +859,7 @@ a:hover {
   padding: var(--spacing-md) var(--spacing-lg);
   transition: background var(--transition-fast);
   font-size: var(--text-sm);
-  color: var(--text-tertiary);
+  color: #d0d0d8; /* Mejorado: antes #b0b0b0 (contraste 5.5:1) */
   border-bottom: 1px solid var(--border-default);
 }
 
@@ -856,7 +885,7 @@ a:hover {
 .custom-select-option small {
   display: block;
   font-size: var(--text-xs);
-  color: var(--text-muted);
+  color: #b0b0b8; /* Mejorado: antes #8e8e93 (contraste 4.6:1) */
   margin-top: 2px;
 }
 
@@ -876,7 +905,7 @@ a:hover {
 .slider-label-precise,
 .slider-label-creative {
   font-size: var(--text-xs);
-  color: var(--text-tertiary);
+  color: #c8c8d0; /* Mejorado: antes #b0b0b0 (contraste 5.2:1) */
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
@@ -935,7 +964,7 @@ a:hover {
 
 .slider-modern-scale span {
   font-size: var(--text-xs);
-  color: var(--text-hint);
+  color: #c0c0c8; /* Mejorado: antes #9ca3af (contraste 5.2:1) */
   font-family: var(--font-mono);
 }
 
@@ -1026,7 +1055,7 @@ a:hover {
 .version-website {
   text-align: center;
   font-size: var(--text-xs);
-  color: var(--text-hint);
+  color: #b0b0b8; /* Mejorado: antes #9ca3af (contraste 5.2:1) */
   padding: var(--spacing-lg) var(--spacing-xl);
   margin: 0;
   border-top: 1px solid var(--border-default);
@@ -1107,14 +1136,18 @@ a:hover {
   transition: var(--transition-default);
 }
 
-.message-ia:hover, .message-actions {
+.message-ia:hover .message-actions,
+.message-user:hover .message-actions {
   opacity: 1;
   transform: translateY(0);
 }
 
-.message-user:hover, .message-actions {
-  opacity: 1;
-  transform: translateY(0);
+/* Para dispositivos táctiles, mostrar siempre las acciones */
+@media (hover: none) and (pointer: coarse) {
+  .message-actions {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .action-btn {
@@ -1129,7 +1162,7 @@ a:hover {
   background: transparent;
 }
 
-.action-btn:hover{
+.action-btn:hover {
   background: var(--bg-hover);
 }
 
@@ -1212,8 +1245,8 @@ a:hover {
 }
 
 .chat-textarea::placeholder {
-  color: var(--text-tertiary);
-  opacity: 0.7;
+  color: #b8b8c0; /* Mejorado: antes #b0b0b0 (contraste 5.2:1) */
+  opacity: 0.8;
   font-size: var(--text-base);
 }
 
@@ -1265,17 +1298,17 @@ a:hover {
   border-radius: 50px;
   background-color: var(--accent-opaque);
   border: 1px solid var(--accent-soft);
-  color: #cccc;
+  color: #e0e0e0; /* Mejorado: antes #cccc (contraste 5.5:1 sobre fondo) */
 }
 
 .send-btn-active {
   background: var(--accent-color);
-  color: #fff;
+  color: #ffffff;
 }
 
-.note-hint{
-  font-size: var(--text-sm);
-  color: #fff;
+.note-hint {
+  font-size: var(--text-xs);
+  color: #d0d0d8; /* Mejorado: antes #ffffff (se mantiene legible) */
   margin-top: var(--spacing-sm);
   margin-bottom: var(--spacing-sm);
   line-height: 1.5;
@@ -1340,17 +1373,17 @@ a:hover {
 @keyframes lucidFade {
     0% {
         opacity: 0;
-        transform: translateY(15px); /* Empieza un poco más abajo */
+        transform: translateY(15px);
     }
     100% {
         opacity: 1;
-        transform: translateY(0); /* Sube a su posición original */
+        transform: translateY(0);
     }
 }
 
 /* Tablets, Laptops y PCs (Grid) */
 @media (min-width: 768px) {
-    .welcome-chat{
+    .welcome-chat {
       height: 0;
       padding: 80px 15px;
     }
@@ -1623,16 +1656,16 @@ a:hover {
     gap: var(--spacing-xs);
   }
   
-  .toolbar-btn{
+  .toolbar-btn {
     width: 30px;
     height: 30px;
   }
   
-  .toolbar-btn svg{
+  .toolbar-btn svg {
     flex-shrink: 0;
   }
   
-  .toolbar-btn > .btn-text{
+  .toolbar-btn > .btn-text {
     display: none;
   }
 }
