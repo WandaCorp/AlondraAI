@@ -521,7 +521,7 @@ function initAccentColorSelect() {
     if (!container || !trigger) return;
     
     const colorNames = {
-        '#0A84FF': 'Predeterminado',
+        '#333537': 'Google',
         '#2C2C2E': 'Gris',
         '#00c230': 'Verde',
         '#ffd60a': 'Amarillo',
@@ -529,7 +529,7 @@ function initAccentColorSelect() {
         '#af6a00': 'Naranja'
     };
     
-    const savedColor = localStorage.getItem('pera_accent_color') || '#0A84FF';
+    const savedColor = localStorage.getItem('pera_accent_color') || '#333537';
     applyUserBubbleColor(savedColor);
     
     // Actualizar trigger con el color guardado
@@ -600,7 +600,7 @@ function observeNewUserBubbles() {
                 if (node.nodeType === 1 && node.classList && node.classList.contains('message-user')) {
                     const bubble = node.querySelector('.bubble');
                     if (bubble) {
-                        const savedColor = localStorage.getItem('pera_accent_color') || '#0A84FF';
+                        const savedColor = localStorage.getItem('pera_accent_color') || '#333537';
                         bubble.style.backgroundColor = savedColor;
                     }
                 }
