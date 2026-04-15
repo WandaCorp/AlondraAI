@@ -20,6 +20,46 @@ html, body{
     top: 0;
 }
 
+/* ===== HISTORIAL DE CONVERSACIONES ===== */
+.history-item {
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-default);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.history-item:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-medium);
+    transform: translateX(2px);
+}
+
+.history-item:active {
+    transform: translateX(0);
+}
+
+/* Scroll personalizado para historial */
+#historyListContainer::-webkit-scrollbar {
+    width: 6px;
+}
+
+#historyListContainer::-webkit-scrollbar-track {
+    background: var(--border-default);
+    border-radius: 10px;
+}
+
+#historyListContainer::-webkit-scrollbar-thumb {
+    background: var(--border-medium);
+    border-radius: 10px;
+}
+
+#historyListContainer::-webkit-scrollbar-thumb:hover {
+    background: var(--border-strong);
+}
+
 .typing-indicator-container {
     opacity: 1;
     transition: all 0.3s ease;
@@ -82,29 +122,12 @@ html, body{
     }
 }
 
-.message-ia,
-.message-user {
-    animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
 /* ✅ ESTILOS PARA BLOQUES DE CÓDIGO */
 .code-block-wrapper {
     margin: 1rem 0;
-    border-radius: 0.75rem;
     overflow: hidden;
-    background-color: #1a1b1e;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #222;
 }
 
 .code-header {
@@ -115,7 +138,6 @@ html, body{
     background-color: #232529;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     position: sticky;
-    top: 8px;
 }
 
 .code-language {
@@ -132,8 +154,7 @@ html, body{
     border-radius: 6px;
     background-color: transparent;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #9ca3af;
-    cursor: pointer;
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -159,7 +180,6 @@ html, body{
     margin: 0;
     padding: 1rem;
     overflow-x: auto;
-    background-color: #1a1b1e;
 }
 
 .code-block-wrapper code {
@@ -174,11 +194,29 @@ html, body{
     padding: 0;
 }
 
+/* Código inline (dentro de párrafos) */
+.bot-bubble code:not(pre code) {
+    background-color: var(--bg-tertiary);
+    color: #f472b6;
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+}
+
+/* Bloques de código preformateados */
+.bot-bubble pre {
+    background-color: var(--bg-tertiary);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin: var(--spacing-md) 0;
+}
+
 /* Responsividad */
 @media screen and (max-width: 768px) {
     .code-block-wrapper {
         margin: 0.75rem 0;
-        border-radius: 0.5rem;
     }
 
     .code-header {
@@ -267,5 +305,76 @@ html, body{
     .rate-limit-acknowledge-btn {
         padding: 12px 15px;
         font-size: 18px;
+    }
+}
+
+/* ===== MANEJO DE FÓRMULAS MATEMÁTICAS (KaTeX) ===== */
+
+/* Contenedor general de fórmulas */
+.katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem 0;
+    margin: 0.75rem 0;
+}
+
+/* Scroll horizontal para fórmulas largas */
+.katex-display > .katex {
+    white-space: normal;
+    word-break: break-word;
+}
+
+/* Permitir scroll horizontal en fórmulas que desbordan */
+.katex-display {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Estilo del scrollbar (opcional) */
+.katex-display::-webkit-scrollbar {
+    height: 4px;
+}
+
+.katex-display::-webkit-scrollbar-track {
+    background: var(--border-default);
+    border-radius: 4px;
+}
+
+.katex-display::-webkit-scrollbar-thumb {
+    background: var(--border-medium);
+    border-radius: 4px;
+}
+
+.katex-display::-webkit-scrollbar-thumb:hover {
+    background: var(--border-strong);
+}
+
+/* Fórmulas inline (dentro de párrafos) */
+.katex {
+    font-size: 1.05em;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Para móviles: reducir tamaño de fórmulas */
+@media screen and (max-width: 768px) {
+    .katex-display {
+        font-size: 0.9rem;
+    }
+    
+    .katex {
+        font-size: 0.95rem;
+    }
+}
+
+/* En móviles muy pequeños, reducir más */
+@media screen and (max-width: 480px) {
+    .katex-display {
+        font-size: 0.8rem;
+    }
+    
+    .katex {
+        font-size: 0.85rem;
     }
 }

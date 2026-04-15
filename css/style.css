@@ -36,7 +36,7 @@ a:hover {
 /* ===== SISTEMA DE VARIABLES MODULAR ===== */
 :root {
   /* === COLORES PRINCIPALES === */
-  --bg-primary: #1B1C1D;
+  --bg-primary: #151517;
   --bg-secondary: #1e1f21;
   --bg-tertiary: #282A2C;
   --bg-modal: #2C2C2E;
@@ -46,7 +46,7 @@ a:hover {
   
   /* === TEXTOS - MEJORADOS PARA CONTRASTE === */
   --text-primary: #ffffff;
-  --text-secondary: #e8e8e8;      /* Mejorado: antes #f0f0f0 */
+  --text-secondary: #FBFBFB;      /* Mejorado: antes #f0f0f0 */
   --text-tertiary: #c0c0c0;       /* Mejorado: antes #b0b0b0 (contraste 4.8:1) */
   --text-muted: #a0a0a0;          /* Mejorado: antes #8e8e93 (contraste 4.5:1) */
   --text-hint: #b8b8c0;           /* Mejorado: antes #9ca3af (contraste 5.2:1) */
@@ -69,7 +69,7 @@ a:hover {
   --bubble-user: #1e2a3a;
   
   /* === TIPOGRAFÍA === */
-  --font-family: "Google Sans Flex";
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-mono: 'Fira Code', monospace;
   
   /* === TAMAÑOS DE FUENTE ESCALABLES === */
@@ -95,7 +95,7 @@ a:hover {
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
-  --radius-full: 20px;
+  --radius-full: 30px;
   
   /* === SOMBRAS === */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -111,7 +111,7 @@ a:hover {
   /* === LAYOUT === */
   --header-height: 73px;
   --header-height-mobile: 61px;
-  --max-chat-width: 980px;
+  --max-chat-width: 1200px;
   --icon-size: 40px;
   
   /* === Z-INDEX === */
@@ -536,7 +536,6 @@ a:hover {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.8); /* Mejorado: antes 0.7 */
-  backdrop-filter: blur(4px);
   z-index: var(--z-modal);
   display: none;
   align-items: flex-end;
@@ -641,8 +640,8 @@ a:hover {
 
 .settings-tab-btn.active-tab {
   color: var(--text-primary);
-  background: #555;
-  border: none;
+  background: #444;
+  border: 1px solid #555;
 }
 
 /* Contenido tabs */
@@ -698,8 +697,8 @@ a:hover {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  border: 2px solid #fbc97a;
-  background: #f1ab3e;
+  border: 2px solid #444;
+  background: linear-gradient(35deg, #1a1a1a, #383838);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -718,7 +717,7 @@ a:hover {
   background: transparent;
   border-radius: var(--radius-md);
   padding: var(--spacing-lg);
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-medium);
 }
 
 /* Inputs */
@@ -737,7 +736,7 @@ a:hover {
 .settings-input:focus {
   outline: none;
   border-color: var(--border-strong);
-  background: rgba(0, 0, 0, 0.5);
+  background: #555;
 }
 
 .settings-input::placeholder {
@@ -765,20 +764,11 @@ a:hover {
   color: var(--text-primary);
 }
 
-.settings-btn-primary:hover {
-  background: var(--accent-hover);
-}
 
 .settings-btn-secondary {
   background: transparent;
   color: #f87474;
   border: 1px solid #f87474;
-}
-
-.settings-btn-secondary:hover {
-  background: var(--bg-hover);
-  border-color: transparent;
-  color: var(--text-primary);
 }
 
 /* Textos de ayuda - CONTRASTE MEJORADO */
@@ -1078,7 +1068,7 @@ a:hover {
 .message-container {
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-lg);
+  padding: 15px 20px;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
@@ -1101,8 +1091,8 @@ a:hover {
 .bubble {
   max-width: 100%;
   border-radius: 25px;
-  padding: 0.5rem 1.4rem;
-  line-height: 1.6;
+  padding: 0.70rem 1rem;
+  line-height: 1.7;
   font-size: var(--text-base);
   position: relative;
   transition: var(--transition-default);
@@ -1113,16 +1103,16 @@ a:hover {
 }
 
 .bot-bubble {
-  color: var(--text-primary);
+  color: var(--text-secondary);
   align-self: flex-start;
 }
 
 .user-bubble {
-  background-color: var(--user-bubble-color);
   color: var(--text-primary);
   align-self: flex-end;
-  max-width: 70% !important;
-  margin-right: 10px;
+  margin: 0 15px;
+  max-width: 80% !important;
+  border-bottom-right-radius: 0px;
 }
 
 /* Acciones del mensaje */
@@ -1130,40 +1120,37 @@ a:hover {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: 3px 10px;
   opacity: 0;
-  transform: translateY(-5px);
   transition: var(--transition-default);
 }
 
 .message-ia:hover .message-actions,
 .message-user:hover .message-actions {
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* Para dispositivos táctiles, mostrar siempre las acciones */
 @media (hover: none) and (pointer: coarse) {
   .message-actions {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 .action-btn {
   width: 30px;
   height: 30px;
-  color: var(--text-primary);
+  color: #cccc;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   border: none;
   background: transparent;
 }
 
 .action-btn:hover {
-  background: var(--bg-hover);
+  background: #333;
 }
 
 
@@ -1238,7 +1225,7 @@ a:hover {
   color: var(--text-primary);
   font-family: var(--font-family);
   font-size: var(--text-base);
-  line-height: 1.5;
+  line-height: 1.6;
   resize: none;
   outline: none;
 }
@@ -1276,7 +1263,7 @@ a:hover {
   color: var(--text-primary);
   gap: var(--spacing-xs);
   border: 1px solid var(--border-strong);
-  font-weight: 500;
+  font-weight: 400;
   font-size: var(--text-base);
   border-radius: 50px;
   transition: var(--transition-default);
@@ -1422,7 +1409,7 @@ a:hover {
   );
   background-repeat: repeat-x;
   background-position: bottom;
-  background-size: 5px 3px;
+  background-size: 4px 2px;
   padding-bottom: 2px;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
@@ -1449,13 +1436,14 @@ a:hover {
   font-size: var(--text-lg);
   font-weight: 600;
   margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .bot-bubble p {
   margin: var(--spacing-md) 0;
   color: var(--text-primary);
   font-size: var(--text-base);
+  line-height: 1.7;
 }
 
 .bot-bubble ul,
@@ -1478,23 +1466,6 @@ a:hover {
 .bot-bubble a:hover {
   border-bottom-color: var(--accent-color);
   color: var(--accent-hover);
-}
-
-.bot-bubble code:not(pre code) {
-  background-color: var(--bg-tertiary);
-  color: #f472b6;
-  padding: 0.2rem 0.4rem;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-}
-
-.bot-bubble pre {
-  background-color: var(--bg-tertiary);
-  padding: var(--spacing-lg);
-  border-radius: var(--radius-md);
-  overflow-x: auto;
-  margin: var(--spacing-md) 0;
 }
 
 .bot-bubble .table-wrapper {
@@ -1546,7 +1517,7 @@ a:hover {
   }
   
   .user-bubble {
-    max-width: 70% !important;
+    max-width: 85% !important;
   }
   
   .message-area {
@@ -1560,12 +1531,12 @@ a:hover {
   }
   
   .message-container {
-    padding: var(--spacing-md);
+    padding: 15px 20px;
     gap: var(--spacing-lg);
   }
   
   .user-bubble {
-    max-width: 70% !important;
+    max-width: 75% !important;
   }
   
   .message-actions {
@@ -1631,11 +1602,11 @@ a:hover {
 @media screen and (max-width: 480px) {
 
   .user-bubble {
-    max-width: 70% !important;
+    max-width: 75% !important;
   }
   
   .message-container {
-    padding: var(--spacing-sm);
+    padding: 10px 20px;
   }
   
   .settings-tab-btn {

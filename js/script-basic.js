@@ -13,6 +13,12 @@ let editingMessage = null;  // Mensaje en edición
 const RATE_LIMIT_MAX = 5;  // 5 mensajes por hora
 const RATE_LIMIT_KEY = 'pera_rate_limit';
 
+// ===== HISTORIAL DE CONVERSACIONES =====
+
+const MAX_SAVED_CONVERSATIONS = 5;
+const CONVERSATIONS_KEY = 'alondra_conversations';
+const ACTIVE_CONVERSATION_KEY = 'alondra_active_conversation';
+
 /**
  * Obtiene el estado actual del rate limit desde localStorage
  * @returns {Object} - { count: number, resetTimestamp: number | null }
@@ -98,6 +104,357 @@ function getRateLimitRemainingTime() {
     return `${minutes} minuto${minutes !== 1 ? 's' : ''}`;
 }
 
+/**
+ * Genera un ID único para una nueva conversación
+ * @returns {string} - ID único
+ */
+function generateConversationId() {
+    return 'conv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+}
+
+/**
+ * Obtiene todas las conversaciones guardadas
+ * @returns {Array} - Lista de conversaciones
+ */
+function getConversations() {
+    const stored = localStorage.getItem(CONVERSATIONS_KEY);
+    if (!stored) return [];
+    try {
+        return JSON.parse(stored);
+    } catch (e) {
+        return [];
+    }
+}
+
+/**
+ * Guarda todas las conversaciones en localStorage
+ * @param {Array} conversations - Lista de conversaciones
+ */
+function saveConversations(conversations) {
+    // Limitar a 5 conversaciones
+    while (conversations.length > MAX_SAVED_CONVERSATIONS) {
+        conversations.pop();
+    }
+    localStorage.setItem(CONVERSATIONS_KEY, JSON.stringify(conversations));
+}
+
+/**
+ * Obtiene la conversación activa actual
+ * @returns {Object|null} - Conversación activa o null
+ */
+function getActiveConversation() {
+    const conversations = getConversations();
+    const activeId = localStorage.getItem(ACTIVE_CONVERSATION_KEY);
+    if (!activeId) return null;
+    return conversations.find(c => c.id === activeId) || null;
+}
+
+
+/**
+ * Guarda la conversación actual en el historial
+ * Extrae los mensajes del DOM y los guarda (con HTML formateado)
+ */
+function saveCurrentConversation() {
+    // Extraer mensajes del DOM (excluyendo streaming, rate-limit y typing indicator)
+    const messageElements = document.querySelectorAll('#messagesDynamic .message-user, #messagesDynamic .message-ia:not(#streaming-message):not(.rate-limit-notice):not(.typing-indicator-container)');
+    const messages = [];
+    
+    messageElements.forEach(el => {
+        const bubble = el.querySelector('.bubble');
+        if (!bubble) return;
+        
+        const role = el.classList.contains('message-user') ? 'user' : 'assistant';
+        // Guardar el HTML interno (ya formateado por Markdown)
+        const contentHtml = bubble.innerHTML;
+        // También guardar texto plano como respaldo (para título)
+        const contentText = bubble.innerText || bubble.textContent;
+        
+        if (contentText && contentText.trim() && !contentText.includes('typing')) {
+            messages.push({
+                role: role,
+                content: contentHtml,      // HTML formateado
+                contentText: contentText,  // Texto plano (para título y búsquedas)
+                timestamp: new Date().toISOString()
+            });
+        }
+    });
+    
+    if (messages.length === 0) return;
+    
+    // Generar título (primer mensaje del usuario en texto plano)
+    const firstUserMessage = messages.find(m => m.role === 'user');
+    const title = firstUserMessage ? firstUserMessage.contentText.substring(0, 50) : 'Nueva conversación';
+    
+    // Obtener conversación activa o crear nueva
+    let conversations = getConversations();
+    let activeId = localStorage.getItem(ACTIVE_CONVERSATION_KEY);
+    let existingIndex = conversations.findIndex(c => c.id === activeId);
+    
+    const conversation = {
+        id: activeId || generateConversationId(),
+        title: title,
+        createdAt: existingIndex !== -1 ? conversations[existingIndex].createdAt : new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        messages: messages
+    };
+    
+    if (existingIndex !== -1) {
+        conversations[existingIndex] = conversation;
+    } else {
+        conversations.unshift(conversation);
+        localStorage.setItem(ACTIVE_CONVERSATION_KEY, conversation.id);
+    }
+    
+    // Ordenar por updatedAt (más reciente primero)
+    conversations.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    
+    saveConversations(conversations);
+}
+
+/**
+ * Formatea una fecha para mostrar en el historial
+ * @param {string} dateString - Fecha ISO
+ * @returns {string} - Fecha formateada
+ */
+function formatHistoryDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+    const diffMonths = Math.floor(diffDays / 30);
+    const diffYears = Math.floor(diffDays / 365);
+    
+    // Hoy
+    if (diffDays === 0) {
+        return `Hoy, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    }
+    // Ayer
+    if (diffDays === 1) {
+        return `Ayer, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    }
+    // Hace X días (2-7)
+    if (diffDays < 7) {
+        return `Hace ${diffDays} días`;
+    }
+    // Semanas (1-4)
+    if (diffDays < 30) {
+        const weeks = Math.floor(diffDays / 7);
+        return `${weeks} ${weeks === 1 ? 'semana' : 'semanas'} atrás`;
+    }
+    // Meses (1-12)
+    if (diffMonths < 12) {
+        return `${diffMonths} ${diffMonths === 1 ? 'mes' : 'meses'} atrás`;
+    }
+    // Años
+    return `${diffYears} ${diffYears === 1 ? 'año' : 'años'} atrás`;
+}
+
+/**
+ * Carga y renderiza el historial en el modal
+ */
+function loadHistoryList() {
+    const historyContainer = document.getElementById('historyList');
+    if (!historyContainer) return;
+    
+    const conversations = getConversations();
+    const activeId = localStorage.getItem(ACTIVE_CONVERSATION_KEY);
+    
+    if (conversations.length === 0) {
+        historyContainer.innerHTML = '<p style="text-align: center; color: var(--text-hint); padding: 20px;">No hay conversaciones guardadas</p>';
+        return;
+    }
+    
+    historyContainer.innerHTML = '';
+    
+    conversations.forEach(conv => {
+        const messageCount = conv.messages.length;
+        const dateFormatted = formatHistoryDate(conv.updatedAt);
+        const isActive = conv.id === activeId;
+        
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.dataset.id = conv.id;
+        div.style.cssText = `
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            background: ${isActive ? 'var(--bg-active)' : 'var(--bg-tertiary)'};
+            border: 1px solid ${isActive ? 'var(--accent-soft)' : 'var(--border-default)'};
+            cursor: pointer;
+            transition: all 0.2s ease;
+        `;
+        
+        div.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="flex: 1; overflow: hidden;">
+                    <div style="font-weight: 500; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        ${escapeHtml(conv.title)}
+                    </div>
+                    <div style="font-size: 0.7rem; color: var(--text-hint); margin-top: 4px;">
+                        ${dateFormatted} · ${messageCount} ${messageCount === 1 ? 'mensaje' : 'mensajes'}
+                    </div>
+                </div>
+                ${isActive ? '<span style="font-size: 0.7rem; color: var(--accent-color);">● Activo</span>' : ''}
+            </div>
+        `;
+        
+        div.addEventListener('click', () => loadConversation(conv.id));
+        historyContainer.appendChild(div);
+    });
+}
+
+/**
+ * Escapa HTML para prevenir XSS
+ * @param {string} str - Texto a escapar
+ * @returns {string}
+ */
+function escapeHtml(str) {
+    if (!str) return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+/**
+ * Carga una conversación específica por ID
+ * @param {string} conversationId - ID de la conversación
+ */
+function loadConversation(conversationId) {
+    const conversations = getConversations();
+    const conversation = conversations.find(c => c.id === conversationId);
+    
+    if (!conversation) return;
+    
+    // Actualizar conversación activa
+    localStorage.setItem(ACTIVE_CONVERSATION_KEY, conversation.id);
+    
+    // Limpiar UI
+    messagesDynamic.innerHTML = '';
+    
+    // Ocultar welcome-chat
+    if (typeof window.hideWelcomeChat === 'function') {
+        window.hideWelcomeChat();
+    }
+    
+    // Cargar mensajes usando el HTML guardado directamente
+    conversation.messages.forEach(msg => {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = msg.role === 'user' ? 'message-user' : 'message-ia';
+        
+        const bubbleDiv = document.createElement('div');
+        bubbleDiv.className = msg.role === 'user' ? 'bubble user-bubble' : 'bubble bot-bubble';
+        
+        // Usar el HTML guardado directamente (ya formateado)
+        bubbleDiv.innerHTML = msg.content;
+        
+        // Renderizar matemáticas en el contenido cargado
+if (typeof renderMathInElement !== 'undefined') {
+    renderMathInElement(bubbleDiv, {
+        delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+        ]
+    });
+}
+        
+        // Aplicar color de acento a burbujas de usuario
+        if (msg.role === 'user') {
+            const savedColor = localStorage.getItem('pera_accent_color') || '#333537';
+            bubbleDiv.style.backgroundColor = savedColor;
+        }
+        
+        messageDiv.appendChild(bubbleDiv);
+        
+        // Añadir botones de acción
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'message-actions';
+        actionsDiv.innerHTML = `
+            <button class="action-btn copy-btn" aria-label="Copiar mensaje" onclick="window.copyMessage(this)">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-iconid="446994" data-svgname="Copy"><path clip-rule="evenodd" d="m13.8 2.25h-.0321c-.8128-.00001-1.4685-.00001-1.9994.04336-.5466.04467-1.0267.13902-1.471.36537-.70557.35952-1.27925.9332-1.63877 1.63881-.22634.44421-.3207.92435-.36537 1.47099-.04337.53091-.04337 1.18651-.04336 1.99934v.00002.03211.45h-.45-.0321-.00003c-.81283-.00001-1.46843-.00001-1.99934.04336-.54663.04467-1.02678.13902-1.47099.36537-.70561.35952-1.27929.9332-1.63881 1.63877-.22634.4443-.3207.9244-.36537 1.471-.04337.5309-.04337 1.1866-.04336 1.9994v.0321 2.4.0321c-.00001.8128-.00001 1.4685.04336 1.9994.04467.5466.13903 1.0267.36537 1.471.35952.7056.9332 1.2792 1.63881 1.6388.44421.2263.92436.3207 1.47099.3653.53091.0434 1.18652.0434 1.99935.0434h.03212 2.4.0321c.8129 0 1.4685 0 1.9994-.0434.5466-.0446 1.0267-.139 1.471-.3653.7056-.3596 1.2792-.9332 1.6388-1.6388.2263-.4443.3207-.9244.3653-1.471.0434-.5309.0434-1.1865.0434-1.9994v-.0321-.45h.45.0321c.8129 0 1.4685 0 1.9994-.0434.5466-.0446 1.0267-.139 1.471-.3653.7056-.3596 1.2793-.9332 1.6388-1.6388.2263-.4443.3207-.9244.3653-1.471.0434-.5309.0434-1.1865.0434-1.9994v-.0321-2.4-.03212c0-.81283 0-1.46844-.0434-1.99935-.0446-.54664-.139-1.02678-.3653-1.47099-.3595-.70561-.9332-1.27929-1.6388-1.63881-.4443-.22635-.9244-.3207-1.471-.36537-.5309-.04337-1.1865-.04337-1.9994-.04336h-.0321zm1.95 12h.45c.8525 0 1.4467-.0006 1.9093-.0384.4539-.0371.7147-.1062.9122-.2068.4233-.2158.7675-.56.9833-.9833.1006-.1975.1697-.4583.2068-.9122.0378-.4626.0384-1.0568.0384-1.9093v-2.4c0-.85245-.0006-1.44669-.0384-1.90932-.0371-.45388-.1062-.71464-.2068-.91216-.2158-.42336-.56-.76757-.9833-.98328-.1975-.10064-.4583-.16978-.9122-.20686-.4626-.0378-1.0568-.03838-1.9093-.03838h-2.4c-.8525 0-1.4467.00058-1.9093.03838-.4539.03708-.7147.10622-.9122.20686-.4233.21571-.7675.55992-.98326.98328-.10064.19752-.16977.45828-.20686.91216-.0378.46263-.03838 1.05687-.03838 1.90932v.45h.45.0321c.8129-.00001 1.4685-.00001 1.9994.04336.5466.04467 1.0267.13902 1.471.36537.7056.35952 1.2792.9332 1.6388 1.63877.2263.4443.3207.9244.3653 1.471.0434.5309.0434 1.1865.0434 1.9994v.0321zm-10.77148-4.25476c.19752-.10064.45829-.16978.91216-.20686.46263-.0378 1.05687-.03838 1.90932-.03838h2.4c.8525 0 1.4467.00058 1.9093.03838.4539.03708.7147.10622.9122.20686.4233.21576.7675.55996.9833.98326.1006.1975.1697.4583.2068.9122.0378.4626.0384 1.0568.0384 1.9093v2.4c0 .8525-.0006 1.4467-.0384 1.9093-.0371.4539-.1062.7147-.2068.9122-.2158.4233-.56.7675-.9833.9833-.1975.1006-.4583.1697-.9122.2068-.4626.0378-1.0568.0384-1.9093.0384h-2.4c-.85245 0-1.44669-.0006-1.90932-.0384-.45387-.0371-.71464-.1062-.91216-.2068-.42336-.2158-.76757-.56-.98328-.9833-.10064-.1975-.16977-.4583-.20686-.9122-.0378-.4626-.03838-1.0568-.03838-1.9093v-2.4c0-.8525.00058-1.4467.03838-1.9093.03709-.4539.10622-.7147.20686-.9122.21571-.4233.55992-.7675.98328-.98326z" fill="currentColor" fill-rule="evenodd"></path></svg>
+            </button>
+        `;
+        
+        // Añadir botón de editar solo para mensajes de usuario
+        if (msg.role === 'user') {
+            const editBtn = document.createElement('button');
+            editBtn.className = 'action-btn edit-message-user';
+            editBtn.setAttribute('aria-label', 'Editar mensaje');
+            editBtn.innerHTML = `
+                <svg fill="currentColor" width="21" height="21" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5,18H9.24a1,1,0,0,0,.71-.29l6.92-6.93h0L19.71,8a1,1,0,0,0,0-1.42L15.47,2.29a1,1,0,0,0-1.42,0L11.23,5.12h0L4.29,12.05a1,1,0,0,0-.29.71V17A1,1,0,0,0,5,18ZM14.76,4.41l2.83,2.83L16.17,8.66,13.34,5.83ZM6,13.17l5.93-5.93,2.83,2.83L8.83,16H6ZM21,20H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"></path>
+                </svg>
+            `;
+            actionsDiv.appendChild(editBtn);
+        }
+        
+        messageDiv.appendChild(actionsDiv);
+        messagesDynamic.appendChild(messageDiv);
+    });
+    
+    // Actualizar contexto del bot
+    if (typeof window.clearContext === 'function') {
+        window.clearContext();
+    }
+    
+    // Reconstruir contexto con los mensajes cargados (usando texto plano)
+    conversation.messages.forEach(msg => {
+        if (typeof window.addToContext === 'function') {
+            // Usar contentText para el contexto (evita HTML en el prompt)
+            const plainContent = msg.contentText || msg.content.replace(/<[^>]*>/g, '');
+            window.addToContext({ role: msg.role, content: plainContent });
+        }
+    });
+    
+    // Marcar como ya saludado si hay mensajes
+    if (conversation.messages.length > 0 && typeof window.marcarSaludoComoHecho === 'function') {
+        window.marcarSaludoComoHecho();
+    }
+    
+    scrollToBottom();
+    
+    // Recargar historial para actualizar estado activo
+    loadHistoryList();
+}
+
+/**
+ * Crea una nueva conversación (nuevo chat)
+ */
+function createNewConversation() {
+    // Generar nuevo ID
+    const newId = generateConversationId();
+    localStorage.setItem(ACTIVE_CONVERSATION_KEY, newId);
+    
+    // Limpiar UI
+    messagesDynamic.innerHTML = '';
+    
+    // Mostrar welcome-chat
+    if (typeof window.showWelcomeChat === 'function') {
+        window.showWelcomeChat();
+    }
+    
+    // Limpiar contexto
+    if (typeof window.clearContext === 'function') {
+        window.clearContext();
+    }
+    
+    // Resetear estado de saludo
+    window.marcarSaludoComoHecho = false;
+    if (typeof window.marcarSaludoComoHecho === 'function') {
+        // Forzar reset
+        window.yaSaludamosAlUsuario = false;
+    }
+    
+    // Recargar historial
+    loadHistoryList();
+    
+    // Scroll al inicio
+    scrollToBottom();
+}
+
 // ===== INICIALIZACIÓN =====
 document.addEventListener('DOMContentLoaded', () => {
     initUI();
@@ -109,6 +466,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (typeof window.checkWelcomeChatOnLoad === 'function') {
         window.checkWelcomeChatOnLoad();
+    }
+    
+    // Cargar última conversación activa al iniciar
+    const activeId = localStorage.getItem(ACTIVE_CONVERSATION_KEY);
+    const conversations = getConversations();
+    const lastConversation = activeId ? conversations.find(c => c.id === activeId) : null;
+
+    if (lastConversation && lastConversation.messages && lastConversation.messages.length > 0) {
+        // Hay conversación activa con mensajes, cargarla
+        setTimeout(() => {
+        loadConversation(lastConversation.id);
+      }, 100);
     }
 });
 
@@ -209,7 +578,7 @@ function initSettingsControls() {
     const saveNameBtn = document.getElementById('saveUserNameBtn');
     
     if (userNameInput) {
-        const savedName = localStorage.getItem('pera_user_name') || 'Zenicero';
+        const savedName = localStorage.getItem('pera_user_name') || 'user0873837';
         userNameInput.value = savedName;
     }
     
@@ -223,7 +592,7 @@ function initSettingsControls() {
         saveNameBtn.addEventListener('click', () => {
             if (userNameInput) {
                 let name = userNameInput.value.trim();
-                if (!name) name = 'Zenicero';
+                if (!name) name = 'user0873837';
                 
                 if (typeof window.setUserName === 'function') {
                     window.setUserName(name);
@@ -274,7 +643,7 @@ function updateProfileInitial() {
     const profileInitialEl = document.getElementById('profileInitial');
     if (!profileInitialEl) return;
     
-    const userName = localStorage.getItem('pera_user_name') || 'Zenicero';
+    const userName = localStorage.getItem('pera_user_name') || 'user0873837';
     const initial = userName.charAt(0).toUpperCase();
     profileInitialEl.textContent = initial;
 }
@@ -386,7 +755,7 @@ function initPersonalitySelect() {
     const personalityNames = {
         profesional: 'Profesional', amigable: 'Amigable',
         creativo: 'Creativo', divertido: 'Divertido', educativo: 'Educativo',
-        sarcastica: 'Sarcástica', humana: 'Humana'
+        sarcastica: 'Sarcástica', humana: 'Humana', rapida: 'Rápida'
     };
     
     const savedPersonality = localStorage.getItem('pera_personality') || 'profesional';
@@ -522,7 +891,7 @@ function initAccentColorSelect() {
     
     const colorNames = {
         '#333537': 'Google',
-        '#2C2C2E': 'Gris',
+        '#0976E3': 'Azul',
         '#00c230': 'Verde',
         '#ffd60a': 'Amarillo',
         '#2b001d': 'Rosa',
@@ -624,7 +993,7 @@ function initTabs() {
     const tabPanes = document.querySelectorAll('.settings-tab-pane');
     
     if (tabBtns.length === 0) return;
-    
+  
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const tabId = btn.dataset.tab;
@@ -635,6 +1004,10 @@ function initTabs() {
             tabPanes.forEach(pane => pane.classList.remove('active-pane'));
             const activePane = document.getElementById(`tab-${tabId}`);
             if (activePane) activePane.classList.add('active-pane');
+            // Si el tab activo es history, cargar el historial
+            if (tabId === 'history') {
+              loadHistoryList();
+            }
         });
     });
 }
@@ -726,7 +1099,7 @@ function initTemperatureSlider() {
  */
 function loadSettingsToUI() {
     // Nombre de usuario
-    const userName = localStorage.getItem('pera_user_name') || 'Zenicero';
+    const userName = localStorage.getItem('pera_user_name') || 'user0873837';
     const userNameInput = document.getElementById('userNameInput');
     if (userNameInput) userNameInput.value = userName;
     updateProfileInitial();
@@ -809,6 +1182,9 @@ async function handleSendMessage() {
         
         addToContext({ role: 'assistant', content: currentStreamingMessage });
         
+        // Guardar conversación en historial
+        saveCurrentConversation();
+        
     } catch (error) {
         hideTypingIndicator();
         
@@ -844,11 +1220,8 @@ function handleModelToggle(type, button) {
  * También elimina cualquier nota de rate limit visible
  */
 function handleNewChat() {
-    if (typeof window.clearContext === 'function') {
-        window.clearContext();
-    }
-    
-    messagesDynamic.innerHTML = '';
+    // Crear nueva conversación
+    createNewConversation();
     
     // Eliminar nota de rate limit si existe
     const existingNotice = document.getElementById('rateLimitNotice');
@@ -858,10 +1231,6 @@ function handleNewChat() {
     
     if (typeof window.setActiveModel === 'function') {
         window.setActiveModel('openai');
-    }
-    
-    if (typeof window.showWelcomeChat === 'function') {
-        window.showWelcomeChat();
     }
     
     const thinkBtn = document.getElementById('thinkBtn');
@@ -944,6 +1313,9 @@ async function handleEditMessage(newMessage) {
         if (typeof window.addToContext === 'function') {
             window.addToContext({ role: 'assistant', content: currentStreamingMessage });
         }
+        
+        // Actualizar conversación en historial después de editar
+        saveCurrentConversation();
         
         scrollToBottom();
         
