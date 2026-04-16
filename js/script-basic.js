@@ -492,7 +492,6 @@ function setupEventListeners() {
     const searchBtn = document.getElementById('searchBtn');
     const newChatBtns = document.querySelectorAll('#newChatBtnDesktop, #newChatBtnMobile');
     const settingsBtns = document.querySelectorAll('#settingsBtnDesktop, #settingsBtnMobile');
-    const communityBtn = document.getElementById('communityBtn');
 
     sendBtn.addEventListener('click', handleSendMessage);
     thinkBtn.addEventListener('click', () => handleModelToggle('think', thinkBtn));
@@ -500,13 +499,6 @@ function setupEventListeners() {
     
     newChatBtns.forEach(btn => btn.addEventListener('click', handleNewChat));
     settingsBtns.forEach(btn => btn.addEventListener('click', openSettingsModal));
-    
-    if (communityBtn) {
-        communityBtn.addEventListener('click', () => {
-            window.open('https://chat.whatsapp.com/FmTPOf2J4ICKSqez5U12Zi?mode=gi_t', '_blank');
-        });
-    }
-    
     // Delegación de eventos para edición de mensajes
     const messagesDynamic = document.getElementById('messagesDynamic');
     if (messagesDynamic) {
