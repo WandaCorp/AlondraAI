@@ -27,7 +27,7 @@
   <meta name="twitter:description" content="Prueba un asistente de inteligencia artificial gratis con capacidades avanzadas.">
   <meta name="twitter:image" content="https://alondra-ai.vercel.app/img/alondra-ai-logo3.jpg">
   
-  <meta name="theme-color" content="#151517">
+  <meta name="theme-color" content="#0F0F0F">
   <meta name="google-site-verification" content="xRImWB36n4cetSWfSfIgP-2oqJcJFhIFDdia3jlOaVA" /> 
   <link rel="canonical" href="https://alondra-ai.vercel.app/">  
   
@@ -48,7 +48,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/additional.css" /> 
   <!-- CSS de highlight.js para los colores -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
   
   <!-- Fonts -->  
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
@@ -75,48 +75,45 @@
   
 <a href="#mainContent" class="skip-to-content">Saltar al contenido principal</a>
 
-<header class="pera-header" id="mainHeader" role="banner">
-    <div class="pera-header__container">
-        
-        <!-- ========== LADO IZQUIERDO: BRANDING ========== -->
-        <div class="pera-brand" aria-label="Alondra AI - Marca">
-            <div class="pera-brand__avatar">
-                <img src="img/alondra-ai-logo2.webp" alt="Logo de Alondra AI, asistente inteligente" />
-            </div>
-            <div class="pera-brand__info">
-                <span class="pera-brand__name">Alondra AI</span>
-                <span class="pera-brand__subtitle">NetTiss Software</span>
-            </div>
+<header class="alondra-header" id="mainHeader" role="banner">
+    <div class="alondra-header__container">
+        <!-- ========== IZQUIERDA: Configuración ========== -->
+        <div class="alondra-header__left">
+            <button class="alondra-icon-btn alondra-icon-btn--settings" id="settingsBtnDesktop" aria-label="Configuración">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Línea superior (completa) -->
+                  <line x1="4" y1="8" x2="20" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <!-- Línea inferior (solo hasta la mitad) -->
+                  <line x1="4" y1="16" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <!-- Versión móvil del botón configuración (mismo ID) -->
+            <button class="alondra-icon-btn alondra-icon-btn--settings-mobile" id="settingsBtnMobile" aria-label="Configuración">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Línea superior (completa) -->
+                  <line x1="4" y1="8" x2="20" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <!-- Línea inferior (solo hasta la mitad) -->
+                  <line x1="4" y1="16" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
         </div>
 
-        <!-- ========== LADO DERECHO: ACCIONES (DESKTOP) ========== -->
-        <div class="pera-actions pera-actions--desktop">
-            <button class="pera-btn pera-btn--newchat" id="newChatBtnDesktop" aria-label="Iniciar un nuevo chat">
+        <!-- ========== CENTRO: Alondra AI ========== -->
+        <div class="alondra-header__center">
+            <h2 class="alondra-brand__name">Alondra</h2>
+        </div>
+
+        <!-- ========== DERECHA: Nuevo Chat ========== -->
+        <div class="alondra-header__right">
+            <button class="alondra-icon-btn alondra-icon-btn--newchat" id="newChatBtnDesktop" aria-label="Nuevo Chat">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <span>Nuevo Chat</span>
             </button>
-            <button class="pera-btn pera-btn--settings" id="settingsBtnDesktop" aria-label="Abrir configuración">
-                <svg fill="currentColor" width="24" height="24" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M24.12,20.35a4,4,0,1,0,4.08,4A4.06,4.06,0,0,0,24.12,20.35Zm0,6.46a2.43,2.43,0,1,1,2.48-2.43A2.46,2.46,0,0,1,24.12,26.82Z"></path><path d="M33.83,23.43a1.16,1.16,0,0,0-.71-1.12l-1.68-.5c-.09-.24-.18-.48-.29-.71l.78-1.44a1.16,1.16,0,0,0-.21-1.37l-1.42-1.41a1.16,1.16,0,0,0-1.37-.2l-1.45.76a7.84,7.84,0,0,0-.76-.32l-.48-1.58a1.15,1.15,0,0,0-1.11-.77h-2a1.16,1.16,0,0,0-1.11.82l-.47,1.54a7.76,7.76,0,0,0-.77.32l-1.42-.76a1.16,1.16,0,0,0-1.36.2l-1.45,1.4a1.16,1.16,0,0,0-.21,1.38L17.08,21a7.64,7.64,0,0,0-.31.74l-1.58.47a1.15,1.15,0,0,0-.83,1.11v2a1.15,1.15,0,0,0,.83,1.1l1.59.47a7.53,7.53,0,0,0,.31.72l-.78,1.46a1.16,1.16,0,0,0,.21,1.37l1.42,1.4a1.16,1.16,0,0,0,1.37.21l1.48-.78c.23.11.47.2.72.29L22,33.18a1.16,1.16,0,0,0,1.11.81h2a1.16,1.16,0,0,0,1.11-.82l.47-1.58c.24-.08.47-.18.7-.29l1.5.79a1.16,1.16,0,0,0,1.36-.2l1.42-1.4a1.16,1.16,0,0,0,.21-1.38l-.79-1.45q.16-.34.29-.69L33,26.5a1.15,1.15,0,0,0,.83-1.11Zm-1.6,1.63-2.11.62-.12.42a6,6,0,0,1-.5,1.19l-.21.38,1,1.91-1,1-2-1-.37.2a6.21,6.21,0,0,1-1.2.49l-.42.12-.63,2.09H23.42l-.63-2.08-.42-.12a6.23,6.23,0,0,1-1.21-.49l-.37-.2-1.94,1-1-1,1-1.94-.22-.38A6,6,0,0,1,18.17,26L18,25.63,16,25V23.69L18,23.08l.13-.41a5.94,5.94,0,0,1,.53-1.23L18.9,21l-1-1.85,1-.94,1.89,1,.38-.21a6.23,6.23,0,0,1,1.26-.52l.41-.12.63-2h1.38l.62,2,.41.12A6.21,6.21,0,0,1,27.1,19l.38.21,1.92-1,1,1-1,1.89.21.38a6.08,6.08,0,0,1,.5,1.21l.12.42,2.06.61Z"></path><path d="M14.49,31H6V5H21.87L23,3H6A2,2,0,0,0,4,5V31a2,2,0,0,0,2,2H16.23l-1.1-1.08A3.11,3.11,0,0,1,14.49,31Z"></path><path d="M26.85,1.14,21.13,11A1.28,1.28,0,0,0,22.23,13H33.68A1.28,1.28,0,0,0,34.78,11L29.06,1.14A1.28,1.28,0,0,0,26.85,1.14Z"></path>
-                  <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
-                </svg>
-                <span>Configuración</span>
-            </button>
-        </div>
-
-        <!-- ========== LADO DERECHO: ACCIONES (MÓVIL) ========== -->
-        <div class="pera-actions pera-actions--mobile">
-            <button class="pera-icon-btn" id="newChatBtnMobile" aria-label="Iniciar un nuevo chat">
+            <!-- Versión móvil del botón nuevo chat (mismo ID) -->
+            <button class="alondra-icon-btn alondra-icon-btn--newchat-mobile" id="newChatBtnMobile" aria-label="Nuevo Chat">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-            </button>
-            <button class="pera-icon-btn" id="settingsBtnMobile" aria-label="Abrir configuración">
-                <svg fill="currentColor" width="22" height="22" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M24.12,20.35a4,4,0,1,0,4.08,4A4.06,4.06,0,0,0,24.12,20.35Zm0,6.46a2.43,2.43,0,1,1,2.48-2.43A2.46,2.46,0,0,1,24.12,26.82Z"></path><path d="M33.83,23.43a1.16,1.16,0,0,0-.71-1.12l-1.68-.5c-.09-.24-.18-.48-.29-.71l.78-1.44a1.16,1.16,0,0,0-.21-1.37l-1.42-1.41a1.16,1.16,0,0,0-1.37-.2l-1.45.76a7.84,7.84,0,0,0-.76-.32l-.48-1.58a1.15,1.15,0,0,0-1.11-.77h-2a1.16,1.16,0,0,0-1.11.82l-.47,1.54a7.76,7.76,0,0,0-.77.32l-1.42-.76a1.16,1.16,0,0,0-1.36.2l-1.45,1.4a1.16,1.16,0,0,0-.21,1.38L17.08,21a7.64,7.64,0,0,0-.31.74l-1.58.47a1.15,1.15,0,0,0-.83,1.11v2a1.15,1.15,0,0,0,.83,1.1l1.59.47a7.53,7.53,0,0,0,.31.72l-.78,1.46a1.16,1.16,0,0,0,.21,1.37l1.42,1.4a1.16,1.16,0,0,0,1.37.21l1.48-.78c.23.11.47.2.72.29L22,33.18a1.16,1.16,0,0,0,1.11.81h2a1.16,1.16,0,0,0,1.11-.82l.47-1.58c.24-.08.47-.18.7-.29l1.5.79a1.16,1.16,0,0,0,1.36-.2l1.42-1.4a1.16,1.16,0,0,0,.21-1.38l-.79-1.45q.16-.34.29-.69L33,26.5a1.15,1.15,0,0,0,.83-1.11Zm-1.6,1.63-2.11.62-.12.42a6,6,0,0,1-.5,1.19l-.21.38,1,1.91-1,1-2-1-.37.2a6.21,6.21,0,0,1-1.2.49l-.42.12-.63,2.09H23.42l-.63-2.08-.42-.12a6.23,6.23,0,0,1-1.21-.49l-.37-.2-1.94,1-1-1,1-1.94-.22-.38A6,6,0,0,1,18.17,26L18,25.63,16,25V23.69L18,23.08l.13-.41a5.94,5.94,0,0,1,.53-1.23L18.9,21l-1-1.85,1-.94,1.89,1,.38-.21a6.23,6.23,0,0,1,1.26-.52l.41-.12.63-2h1.38l.62,2,.41.12A6.21,6.21,0,0,1,27.1,19l.38.21,1.92-1,1,1-1,1.89.21.38a6.08,6.08,0,0,1,.5,1.21l.12.42,2.06.61Z"></path><path d="M14.49,31H6V5H21.87L23,3H6A2,2,0,0,0,4,5V31a2,2,0,0,0,2,2H16.23l-1.1-1.08A3.11,3.11,0,0,1,14.49,31Z"></path><path d="M26.85,1.14,21.13,11A1.28,1.28,0,0,0,22.23,13H33.68A1.28,1.28,0,0,0,34.78,11L29.06,1.14A1.28,1.28,0,0,0,26.85,1.14Z"></path>
-                  <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
                 </svg>
             </button>
         </div>
@@ -174,12 +171,13 @@
                 <div class="settings-tab-pane active-pane" id="tab-profile" role="tabpanel" aria-labelledby="tab-btn-profile">
                     <div class="settings-section">
                         <h3 class="settings-section-title">¿Cómo debería llamarte?</h3>
-                        <div class="profile-container">
-                            <div class="avatar-name">
-                                <h3 class="profile-initial" id="profileInitial" aria-label="Inicial del nombre">--/--</h3>
-                            </div>
-                        </div>
+                        
                         <div class="settings-section-content">
+                            <div class="profile-container">
+                                <div class="avatar-name">
+                                  <h3 class="profile-initial" id="profileInitial" aria-label="Inicial del nombre">--/--</h3>
+                                </div>
+                            </div>
                             <input type="text" class="settings-input" id="userNameInput" placeholder="Ej: Zenicero" value="" aria-label="Nombre de usuario">
                             <div class="settings-button-group">
                                 <button class="settings-btn settings-btn-secondary" id="clearUserNameBtn" aria-label="Limpiar nombre">Limpiar</button>
@@ -336,9 +334,9 @@
                                     <span class="custom-select-arrow" aria-hidden="true">▼</span>
                                 </div>
                                 <div class="custom-select-dropdown" id="accentColorSelectDropdown" role="listbox">
-                                    <div class="custom-select-option" data-value="#333537" role="option">
-                                        <span class="color-preview" style="background: #333537;" aria-hidden="true"></span>
-                                        Google
+                                    <div class="custom-select-option" data-value="#2C2C2E" role="option">
+                                        <span class="color-preview" style="background: #2C2C2E;" aria-hidden="true"></span>
+                                        Predeterminado
                                     </div>
                                     <div class="custom-select-option" data-value="#0976E3" role="option">
                                         <span class="color-preview" style="background: #0976E3;" aria-hidden="true"></span>
@@ -369,7 +367,7 @@
                 </div>
             </div>
 
-            <p class="version-website">Versión: 1.1.3</p>
+            <p class="version-website">Versión: 1.1.8</p>
         </div>
     </div>
 
@@ -409,14 +407,14 @@
                 <div class="input-toolbar">
                     <div class="toolbar-left">
                         <button class="toolbar-btn think-btn" id="thinkBtn" aria-label="Activar modo pensamiento/razonamiento">
-                            <svg fill="currentColor" width="18" height="18" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <svg fill="currentColor" width="16" height="16" viewBox="0 0 256 256" id="Flat" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                <path d="M210.02441,210.02441c-17.1831,17.18311-67.83642-5.61084-113.1372-50.91162S28.79248,63.15869,45.97559,45.97559s67.83642,5.61084,113.1372,50.91162S227.20752,192.84131,210.02441,210.02441Z" opacity="0.2"></path>
                                <path d="M196.09521,128a195.65007,195.65007,0,0,0,19.2002-32.71777c11.07715-24.61524,11.21436-44.13575.38574-54.96387C198.23291,22.87354,162.541,35.40918,128,60.00342,93.459,35.40894,57.76709,22.87256,40.31885,40.31836,29.49023,51.14648,29.62744,70.667,40.70459,95.28223A195.65007,195.65007,0,0,0,59.90479,128a195.65007,195.65007,0,0,0-19.2002,32.71777c-11.07715,24.61524-11.21436,44.13575-.38574,54.96387,5.61767,5.61719,13.12549,8.127,21.87842,8.127,18.4331,0,42.38232-11.1394,65.80273-27.81616,23.42041,16.677,47.36914,27.81616,65.80273,27.81616,8.75,0,16.26172-2.51074,21.87842-8.127,10.82862-10.82812,10.69141-30.34863-.38574-54.96387A195.65007,195.65007,0,0,0,196.09521,128Zm-2.31982-79.7002c4.77539,0,8.39453,1.13575,10.59229,3.333,5.62451,5.624,4.25537,19.48731-3.66309,37.084a172.9306,172.9306,0,0,1-14.79053,25.93188,306.72561,306.72561,0,0,0-21.14453-23.41821,300.50739,300.50739,0,0,0-23.48389-21.13184C163.18457,55.21191,182.00049,48.2998,193.77539,48.2998ZM176.12061,128a288.40831,288.40831,0,0,1-22.66456,25.45508,288.63877,288.63877,0,0,1-25.45459,22.69873A288.50733,288.50733,0,0,1,102.544,153.45508,288.40831,288.40831,0,0,1,79.87939,128,296.26257,296.26257,0,0,1,128,79.84717a288.52058,288.52058,0,0,1,25.45605,22.69775A288.40831,288.40831,0,0,1,176.12061,128ZM55.29541,88.7168c-7.91846-17.59668-9.2876-31.46-3.66309-37.084,2.19776-2.19824,5.815-3.333,10.59229-3.333,11.77539,0,30.59131,6.91285,52.48975,21.79908A300.45376,300.45376,0,0,0,91.23047,91.23047a306.72561,306.72561,0,0,0-21.14453,23.41821A172.9306,172.9306,0,0,1,55.29541,88.7168ZM51.63232,204.36719c-5.62451-5.624-4.25537-19.48731,3.66309-37.084a172.9306,172.9306,0,0,1,14.79053-25.93188,306.72561,306.72561,0,0,0,21.14453,23.41821,300.52025,300.52025,0,0,0,23.4917,21.13233C83.93506,206.83276,59.24854,211.98193,51.63232,204.36719Zm152.73536,0c-2.19776,2.19824-5.815,3.333-10.59229,3.333-11.77588-.00123-30.59326-6.91456-52.49316-21.80176a300.51532,300.51532,0,0,0,23.4873-21.12891,306.72561,306.72561,0,0,0,21.14453-23.41821,172.9306,172.9306,0,0,1,14.79053,25.93188C208.62305,184.87988,209.99219,198.74316,204.36768,204.36719ZM140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128Z"></path>
                             </svg>
                             <span class="btn-text">Pensamiento profundo</span>
                         </button>
                         <button class="toolbar-btn search-btn" id="searchBtn" aria-label="Activar modo búsqueda web">
-                          <svg fill="currentColor" width="18" height="18" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <svg fill="currentColor" width="16" height="16" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                              <title>world-outline-badged</title>
                              <path d="M33.12,12.81a7.44,7.44,0,0,1-1.91.58,14.05,14.05,0,1,1-8.6-8.6,7.43,7.43,0,0,1,.58-1.91,16.06,16.06,0,1,0,9.93,9.93Z" class="clr-i-outline--badged clr-i-outline-path-1--badged"></path><path d="M20.25,5.77a17.83,17.83,0,0,1,3.89,6.59H18.75V5.6c-.25,0-.51,0-.77,0s-.49,0-.73,0v6.77H11.86a17.83,17.83,0,0,1,3.9-6.6,12.28,12.28,0,0,0-2.54.75,19.72,19.72,0,0,0-2.91,5.85H6.94A12.3,12.3,0,0,0,6.26,14H9.89a19.38,19.38,0,0,0-.43,4,19.67,19.67,0,0,0,.5,4.37H6.42A12.34,12.34,0,0,0,7.16,24h3.23a19.32,19.32,0,0,0,2.69,5.36,12.28,12.28,0,0,0,2.61.79A17.91,17.91,0,0,1,12,24h5.26v6.34c.24,0,.49,0,.73,0s.51,0,.77,0V24H24a17.9,17.9,0,0,1-3.7,6.15,12.28,12.28,0,0,0,2.62-.81A19.32,19.32,0,0,0,25.61,24h3.2a12.34,12.34,0,0,0,.74-1.6H26a19.67,19.67,0,0,0,.5-4.37,19.38,19.38,0,0,0-.43-4h3.6c-.06-.17-.12-.33-.19-.49a7.45,7.45,0,0,1-3.47-1.11h-.36c0-.11-.08-.21-.11-.32a7.48,7.48,0,0,1-3.06-5.62A12.41,12.41,0,0,0,20.25,5.77Zm-3,16.59H11.51a17.69,17.69,0,0,1-.09-8.4h5.83ZM25,18a18.12,18.12,0,0,1-.55,4.37H18.75V14h5.83A18.21,18.21,0,0,1,25,18Z" class="clr-i-outline--badged clr-i-outline-path-2--badged"></path><circle cx="30" cy="6" r="5" class="clr-i-outline--badged clr-i-outline-path-3--badged clr-i-badge"></circle>
                              <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>

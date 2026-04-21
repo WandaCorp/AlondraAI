@@ -363,7 +363,7 @@ if (typeof renderMathInElement !== 'undefined') {
         
         // Aplicar color de acento a burbujas de usuario
         if (msg.role === 'user') {
-            const savedColor = localStorage.getItem('pera_accent_color') || '#333537';
+            const savedColor = localStorage.getItem('pera_accent_color') || '#2C2C2E';
             bubbleDiv.style.backgroundColor = savedColor;
         }
         
@@ -484,36 +484,72 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===== CONFIGURACIÓN DE EVENTOS PRINCIPALES =====
 
 /**
- * Configura todos los event listeners del chat
+ * Configura todos los event listeners del chat usando delegación de eventos
  */
 function setupEventListeners() {
-    const sendBtn = document.getElementById('sendBtn');
-    const thinkBtn = document.getElementById('thinkBtn');
-    const searchBtn = document.getElementById('searchBtn');
-    const newChatBtns = document.querySelectorAll('#newChatBtnDesktop, #newChatBtnMobile');
-    const settingsBtns = document.querySelectorAll('#settingsBtnDesktop, #settingsBtnMobile');
-
-    sendBtn.addEventListener('click', handleSendMessage);
-    thinkBtn.addEventListener('click', () => handleModelToggle('think', thinkBtn));
-    searchBtn.addEventListener('click', () => handleModelToggle('search', searchBtn));
+    // Usar delegación de eventos en el documento (nunca se reemplaza)
+    document.body.addEventListener('click', (e) => {
+        // Botón Enviar
+        const sendBtn = e.target.closest('#sendBtn');
+        if (sendBtn) {
+            e.preventDefault();
+            handleSendMessage();
+            return;
+        }
+        
+        // Botón Pensar
+        const thinkBtn = e.target.closest('#thinkBtn');
+        if (thinkBtn) {
+            e.preventDefault();
+            handleModelToggle('think', thinkBtn);
+            return;
+        }
+        
+        // Botón Buscar
+        const searchBtn = e.target.closest('#searchBtn');
+        if (searchBtn) {
+            e.preventDefault();
+            handleModelToggle('search', searchBtn);
+            return;
+        }
+        
+        // Botones Nuevo Chat (desktop y móvil)
+        const newChatBtn = e.target.closest('#newChatBtnDesktop, #newChatBtnMobile');
+        if (newChatBtn) {
+            e.preventDefault();
+            handleNewChat();
+            return;
+        }
+        
+        // Botones Configuración (desktop y móvil)
+        const settingsBtn = e.target.closest('#settingsBtnDesktop, #settingsBtnMobile');
+        if (settingsBtn) {
+            e.preventDefault();
+            openSettingsModal();
+            return;
+        }
+    });
     
-    newChatBtns.forEach(btn => btn.addEventListener('click', handleNewChat));
-    settingsBtns.forEach(btn => btn.addEventListener('click', openSettingsModal));
-    // Delegación de eventos para edición de mensajes
+    // Delegación de eventos para edición de mensajes (esto ya estaba bien)
     const messagesDynamic = document.getElementById('messagesDynamic');
     if (messagesDynamic) {
-        messagesDynamic.addEventListener('click', (e) => {
+        // Eliminar listener anterior si existe (para evitar duplicados)
+        messagesDynamic.removeEventListener('click', window._editMessageHandler);
+        
+        // Crear handler y guardar referencia
+        window._editMessageHandler = (e) => {
             const editBtn = e.target.closest('.edit-message-user');
             if (editBtn) {
                 e.preventDefault();
                 editUserMessage(editBtn);
             }
-        });
+        };
+        
+        messagesDynamic.addEventListener('click', window._editMessageHandler);
     }
 }
 
 // ===== MODAL DE CONFIGURACIÓN =====
-
 let settingsModal, settingsOverlay, closeBtn;
 
 /**
@@ -882,7 +918,7 @@ function initAccentColorSelect() {
     if (!container || !trigger) return;
     
     const colorNames = {
-        '#333537': 'Google',
+        '#2C2C2E': 'Predeterminada',
         '#0976E3': 'Azul',
         '#00c230': 'Verde',
         '#ffd60a': 'Amarillo',
@@ -890,7 +926,7 @@ function initAccentColorSelect() {
         '#af6a00': 'Naranja'
     };
     
-    const savedColor = localStorage.getItem('pera_accent_color') || '#333537';
+    const savedColor = localStorage.getItem('pera_accent_color') || '#2C2C2E';
     applyUserBubbleColor(savedColor);
     
     // Actualizar trigger con el color guardado
@@ -961,7 +997,7 @@ function observeNewUserBubbles() {
                 if (node.nodeType === 1 && node.classList && node.classList.contains('message-user')) {
                     const bubble = node.querySelector('.bubble');
                     if (bubble) {
-                        const savedColor = localStorage.getItem('pera_accent_color') || '#333537';
+                        const savedColor = localStorage.getItem('pera_accent_color') || '#2C2C2E';
                         bubble.style.backgroundColor = savedColor;
                     }
                 }

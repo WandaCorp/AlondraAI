@@ -41,7 +41,7 @@ renderer.code = function(code, language) {
             <div class="code-header">
                 <span class="code-language">${validLang}</span>
                 <button class="code-copy-btn" onclick="window.copyCodeBlock(this)" aria-label="Copiar código">
-                    <svg width="21" height="21" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" data-iconid="433390" data-svgname="Copy o">
+                    <svg width="16" height="16" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" data-iconid="433390" data-svgname="Copy o">
                       <g fill="none" fill-rule="evenodd">
                       <path d="m0 0h32v32h-32z"></path>
                       <path d="m27 0c2.7614237 0 5 2.23857625 5 5v14c0 2.7614237-2.2385763 5-5 5h-3v3.3333333c0 2.5057364-1.9748757 4.5502158-4.4530532 4.6618646l-.2136135.0048021h-14.66666663c-2.50573637 0-4.55021581-1.9748757-4.66186456-4.4530532l-.00480211-.2136135v-14.6666666c0-2.5057364 1.97487565-4.55021584 4.4530532-4.66186459l.21361347-.00480211h3.33333333v-3c0-2.76142375 2.2385763-5 5-5zm-19 10h-3.33333333c-1.41611475 0-2.57441514 1.1038344-2.66142033 2.4980225l-.00524634.1686442v14.6666666c0 1.4161148 1.10383444 2.5744152 2.49802247 2.6614204l.1686442.0052463h14.66666663c1.4161148 0 2.5744152-1.1038344 2.6614204-2.4980225l.0052463-.1686442v-3.3333333h-9c-2.7614237 0-5-2.2385763-5-5zm19-8h-14c-1.5976809 0-2.9036609 1.24891996-2.9949073 2.82372721l-.0050927.17627279v14c0 1.5976809 1.24892 2.9036609 2.8237272 2.9949073l.1762728.0050927h14c1.5976809 0 2.9036609-1.24892 2.9949073-2.8237272l.0050927-.1762728v-14c0-1.59768088-1.24892-2.90366088-2.8237272-2.99490731z" fill="currentColor" fill-rule="nonzero"></path></g>
@@ -397,6 +397,7 @@ const welcomeContainer = document.querySelector('.welcome-chat');
 function hideWelcomeChat() {
     if (welcomeContainer && welcomeContainer.style.display !== 'none') {
         welcomeContainer.style.display = 'none';
+        document.documentElement.style.setProperty('--bg-primary', '#0F0F0F');
     }
 }
 
@@ -406,6 +407,7 @@ function hideWelcomeChat() {
 function showWelcomeChat() {
     if (welcomeContainer && welcomeContainer.style.display !== 'flex') {
         welcomeContainer.style.display = 'flex';
+        document.documentElement.style.setProperty('--bg-primary', '#000000');
     }
 }
 
@@ -547,7 +549,8 @@ function createRateLimitNotice() {
     bubbleDiv.className = 'bubble bot-bubble rate-limit-bubble';
   
     bubbleDiv.innerHTML = `
-        <svg fill="currentColor" width="80" height="80" viewBox="0 0 32 32" id="Outlined" xmlns="http://www.w3.org/2000/svg" data-iconid="418569" data-svgname="Outlined warning alert">
+        <h4>
+        <svg fill="currentColor" width="20" height="20" viewBox="0 0 32 32" id="Outlined" xmlns="http://www.w3.org/2000/svg" data-iconid="418569" data-svgname="Outlined warning alert">
            <title></title>
             <g id="Fill">
              <path d="M29.68,25.6l-11-21.92a3,3,0,0,0-5.44,0L2.32,25.6A3,3,0,0,0,5,30H27a3,3,0,0,0,2.72-4.4Zm-1.84,1.91A1,1,0,0,1,27,28H5a1,1,0,0,1-.88-.49,1,1,0,0,1,0-1l11-21.93h0a1,1,0,0,1,1.86,0l11,21.93A1,1,0,0,1,27.84,27.51Z"></path>
@@ -555,11 +558,13 @@ function createRateLimitNotice() {
              <circle cx="16" cy="24" r="2"></circle>
             </g>
         </svg>
-        <p style="margin: 0; line-height: 1.5; font-size: 17px;">
+        Alta demanda
+        </h4>
+        <p style="margin: 0; line-height: 1.5;">
             Alondra está presentando un uso intensivo en estos momentos. Por favor inténtelo nuevamente más tarde.
         </p>
         <button class="rate-limit-acknowledge-btn">
-            Entendido
+            ¡De acuerdo!
         </button>
     `;
     
