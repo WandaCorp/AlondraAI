@@ -186,27 +186,32 @@ function saveCurrentConversation() {
     const title = firstUserMessage ? firstUserMessage.contentText.substring(0, 50) : 'Nueva conversación';
     
     // Obtener conversación activa o crear nueva
-    let conversations = getConversations();
-    let activeId = localStorage.getItem(ACTIVE_CONVERSATION_KEY);
-    let existingIndex = conversations.findIndex(c => c.id === activeId);
-    
-    const conversation = {
-        id: activeId || generateConversationId(),
-        title: title,
-        createdAt: existingIndex !== -1 ? conversations[existingIndex].createdAt : new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        messages: messages
-    };
-    
-    if (existingIndex !== -1) {
-        conversations[existingIndex] = conversation;
-    } else {
-        conversations.unshift(conversation);
-        localStorage.setItem(ACTIVE_CONVERSATION_KEY, conversation.id);
-    }
-    
-    // Ordenar por updatedAt (más reciente primero)
-    conversations.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+let conversations = getConversations();
+let activeId = localStorage.getItem(ACTIVE_CONVERSATION_KEY);  // ← Declarado aquí
+let existingIndex = conversations.findIndex(c => c.id === activeId);
+
+const conversation = {
+    id: activeId || generateConversationId(),
+    title: title,
+    createdAt: existingIndex !== -1 ? conversations[existingIndex].createdAt : new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    messages: messages
+};
+
+if (existingIndex !== -1) {
+    conversations[existingIndex] = conversation;
+} else {
+    conversations.unshift(conversation);
+    localStorage.setItem(ACTIVE_CONVERSATION_KEY, conversation.id);
+}
+
+// Actualizar tema si es la conversación activa (CORREGIDO - sin redeclarar)
+if (activeId && conversation.id === activeId) {
+    updateChatTheme(conversation.title);
+}
+
+// Ordenar por updatedAt (más reciente primero)
+conversations.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
     
     saveConversations(conversations);
 }
@@ -414,10 +419,86 @@ if (typeof renderMathInElement !== 'undefined') {
         window.marcarSaludoComoHecho();
     }
     
+    // Actualizar tema del header
+    updateChatTheme(conversation.title);
     scrollToBottom();
     
     // Recargar historial para actualizar estado activo
     loadHistoryList();
+}
+
+/**
+ * Actualiza el título del tema en el header según la conversación activa
+ * @param {string} theme - Tema a mostrar (opcional, si no se pasa, usa el de la conversación activa)
+ */
+function updateChatTheme(theme) {
+    const themeElement = document.getElementById('alondraChatTheme');
+    if (!themeElement) return;
+    
+    let finalTheme = 'Nuevo Chat'; // Por defecto
+    
+    if (theme) {
+        finalTheme = theme;
+    } else {
+        // Intentar obtener el tema de la conversación activa
+        const activeId = localStorage.getItem(ACTIVE_CONVERSATION_KEY);
+        const conversations = getConversations();
+        const activeConversation = activeId ? conversations.find(c => c.id === activeId) : null;
+        
+        if (activeConversation && activeConversation.title) {
+            finalTheme = activeConversation.title;
+        }
+    }
+    
+    // Truncar texto de forma inteligente según el ancho del contenedor
+    themeElement.textContent = truncateTextToFit(finalTheme, themeElement);
+}
+
+/**
+ * Trunca un texto para que quepa en el contenedor, de forma inteligente
+ * @param {string} text - Texto a truncar
+ * @param {HTMLElement} element - Elemento donde se mostrará
+ * @returns {string} - Texto truncado
+ */
+function truncateTextToFit(text, element) {
+    if (!element || !text) return text;
+    
+    // Guardar el texto original para calcular
+    const tempSpan = document.createElement('span');
+    tempSpan.style.visibility = 'hidden';
+    tempSpan.style.position = 'absolute';
+    tempSpan.style.whiteSpace = 'nowrap';
+    tempSpan.style.fontSize = window.getComputedStyle(element).fontSize;
+    tempSpan.style.fontWeight = window.getComputedStyle(element).fontWeight;
+    tempSpan.style.fontFamily = window.getComputedStyle(element).fontFamily;
+    tempSpan.textContent = text;
+    document.body.appendChild(tempSpan);
+    
+    const textWidth = tempSpan.offsetWidth;
+    const containerWidth = element.parentElement?.offsetWidth || 300;
+    document.body.removeChild(tempSpan);
+    
+    // Si el texto cabe, devolverlo completo
+    if (textWidth <= containerWidth - 20) { // 20px de margen
+        return text;
+    }
+    
+    // Truncar inteligentemente (preferir palabras completas)
+    let truncated = text;
+    let ellipsis = '...';
+    let maxLength = Math.floor((containerWidth - 20) / (textWidth / text.length));
+    
+    if (maxLength < 5) maxLength = 5;
+    
+    // Intentar truncar en un espacio en blanco
+    let lastSpace = text.lastIndexOf(' ', maxLength - 3);
+    if (lastSpace > 5) {
+        truncated = text.substring(0, lastSpace) + ellipsis;
+    } else {
+        truncated = text.substring(0, maxLength - 3) + ellipsis;
+    }
+    
+    return truncated;
 }
 
 /**
@@ -450,6 +531,8 @@ function createNewConversation() {
     
     // Recargar historial
     loadHistoryList();
+    // Actualizar tema del header (Nuevo Chat por defecto)
+    updateChatTheme('Nuevo Chat');
     
     // Scroll al inicio
     scrollToBottom();
@@ -472,11 +555,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const activeId = localStorage.getItem(ACTIVE_CONVERSATION_KEY);
     const conversations = getConversations();
     const lastConversation = activeId ? conversations.find(c => c.id === activeId) : null;
-
+    
     if (lastConversation && lastConversation.messages && lastConversation.messages.length > 0) {
         // Hay conversación activa con mensajes, cargarla
         setTimeout(() => {
         loadConversation(lastConversation.id);
+        updateChatTheme(lastConversation.title);
       }, 100);
     }
 });
@@ -606,7 +690,7 @@ function initSettingsControls() {
     const saveNameBtn = document.getElementById('saveUserNameBtn');
     
     if (userNameInput) {
-        const savedName = localStorage.getItem('pera_user_name') || 'user0873837';
+        const savedName = localStorage.getItem('pera_user_name') || 'User';
         userNameInput.value = savedName;
     }
     
@@ -620,7 +704,7 @@ function initSettingsControls() {
         saveNameBtn.addEventListener('click', () => {
             if (userNameInput) {
                 let name = userNameInput.value.trim();
-                if (!name) name = 'user0873837';
+                if (!name) name = 'User';
                 
                 if (typeof window.setUserName === 'function') {
                     window.setUserName(name);
@@ -671,7 +755,7 @@ function updateProfileInitial() {
     const profileInitialEl = document.getElementById('profileInitial');
     if (!profileInitialEl) return;
     
-    const userName = localStorage.getItem('pera_user_name') || 'user0873837';
+    const userName = localStorage.getItem('pera_user_name') || 'User';
     const initial = userName.charAt(0).toUpperCase();
     profileInitialEl.textContent = initial;
 }
@@ -1127,7 +1211,7 @@ function initTemperatureSlider() {
  */
 function loadSettingsToUI() {
     // Nombre de usuario
-    const userName = localStorage.getItem('pera_user_name') || 'user0873837';
+    const userName = localStorage.getItem('pera_user_name') || 'User';
     const userNameInput = document.getElementById('userNameInput');
     if (userNameInput) userNameInput.value = userName;
     updateProfileInitial();

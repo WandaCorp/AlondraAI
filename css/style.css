@@ -62,7 +62,7 @@ a:hover {
   --border-default: rgba(255, 255, 255, 0.08);
   --border-soft: rgba(255, 255, 255, 0.1);
   --border-medium: rgba(255, 255, 255, 0.15);
-  --border-strong: rgba(255, 255, 255, 0.2);
+  --border-strong: rgba(255,255,255,0.311);
   
   /* === BURBUJAS === */
   --user-bubble-color: #0A84FF;
@@ -70,7 +70,7 @@ a:hover {
   --bubble-user: #1e2a3a;
   
   /* === TIPOGRAFÍA === */
-  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-mono: 'Fira Code', monospace;
   
   /* === TAMAÑOS DE FUENTE ESCALABLES === */
@@ -199,22 +199,26 @@ a:hover {
 
 /* ===== CENTRO ===== */
 .alondra-header__center {
+    padding: 8px 5px;
+    border-radius: 26px;
     flex: 1;
+    min-width: 0; /* ← CRUCIAL para que el truncado funcione */
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    overflow: hidden; /* ← ayuda al truncado */
 }
 
-.alondra-brand__name {
-    font-size: 1.25rem;
-    font-weight: 600;
+.alondra-chat__theme {
+    font-size: 1rem;
+    font-weight: 500;
     letter-spacing: -0.3px;
-    background: var(--text-primary);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
     white-space: nowrap;
+    max-width: 100%; /* ← importante para truncar */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-primary);
 }
 
 /* ===== LADO DERECHO ===== */
@@ -461,7 +465,6 @@ a:hover {
 .settings-tab-btn.active-tab {
   color: var(--text-primary);
   background: #444;
-  border: 1px solid #555;
 }
 
 /* Contenido tabs */
@@ -916,8 +919,8 @@ a:hover {
 .bubble {
   max-width: 100%;
   border-radius: 26px;
-  padding: 0.70rem 1rem;
-  line-height: 1.7;
+  padding: 0.6rem 1.25rem;
+  line-height: 1.5;
   font-size: var(--text-base);
   position: relative;
   transition: var(--transition-default);
@@ -932,7 +935,8 @@ a:hover {
   color: var(--text-primary);
   align-self: flex-end;
   margin: 0 14px;
-  max-width: 80% !important;
+  max-width: 85% !important;
+  border-bottom-right-radius: 4px;
 }
 
 /* Acciones del mensaje */
@@ -1022,7 +1026,7 @@ a:hover {
   flex-direction: column;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-strong);
-  padding: 10px 14px;
+  padding: 10px 10px;
   border-radius: 26px;
   margin: 0 8px;
 }
@@ -1140,8 +1144,8 @@ a:hover {
 
 .welcome-header h1 {
     color: #ffffff;
-    font-size: 2.1rem;
-    font-weight: 400;
+    font-size: 1.8rem;
+    font-weight: 500;
     margin: 0;
 }
 
@@ -1158,7 +1162,7 @@ a:hover {
 .chip {
     background: var(--bg-tertiary);
     border: none;
-    color: #ffffff;
+    color: var(--text-primary);
     padding: 15px 18px;
     border-radius: 50px;
     cursor: pointer;
@@ -1172,7 +1176,7 @@ a:hover {
 }
 
 .chip:hover {
-    background: #444;
+    background: #333;
 }
 
 @keyframes lucidFade {
@@ -1193,6 +1197,7 @@ a:hover {
       flex-direction: column;
       justify-content: flex-start;
       padding: 80px 15px;
+      margin: 15px 0;
       gap: 1.5rem;
     }
     .chips-container {
@@ -1215,7 +1220,7 @@ a:hover {
 .bot-bubble hr {
     border: none;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: #333;
     margin: 1.5rem 0;
 }
 
@@ -1248,6 +1253,7 @@ a:hover {
   margin: var(--spacing-xl) 0 var(--spacing-lg) 0;
   color: var(--text-primary);
   letter-spacing: -0.02em;
+  line-height: none;
 }
 
 .bot-bubble h2 {
@@ -1255,6 +1261,7 @@ a:hover {
   font-weight: 700;
   margin: var(--spacing-lg) 0 var(--spacing-md) 0;
   color: var(--text-primary);
+  line-height: none;
 }
 
 .bot-bubble h3 {
@@ -1262,12 +1269,12 @@ a:hover {
   font-weight: 600;
   margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
   color: var(--text-primary);
+  line-height: none;
 }
 
 .bot-bubble p {
   color: var(--text-secondary);
   font-size: var(--text-base);
-  line-height: 1.7;
 }
 
 .bot-bubble ul,
@@ -1360,7 +1367,7 @@ a:hover {
   }
   
   .user-bubble {
-    max-width: 75% !important;
+    max-width: 85% !important;
   }
   
   .message-actions {
@@ -1427,7 +1434,7 @@ a:hover {
 @media screen and (max-width: 480px) {
 
   .user-bubble {
-    max-width: 75% !important;
+    max-width: 85% !important;
   }
   
   .message-container {

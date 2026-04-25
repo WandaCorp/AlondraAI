@@ -95,7 +95,7 @@ function getCurrentTemperature() {
  */
 async function callPollinationsAPI(messages, onChunk, options = {}) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    const timeoutId = setTimeout(() => controller.abort(), 60000);
     
     // Obtener temperatura desde localStorage
     const temperature = options.temperature || getCurrentTemperature();
@@ -115,7 +115,7 @@ async function callPollinationsAPI(messages, onChunk, options = {}) {
 
         // Manejar errores de respuesta
         if (!response.ok) {
-            let errorMsg = `Error ${response.status}`;
+            let errorMsg = `${response.status}`;
             try {
                 const errorData = await response.json();
                 errorMsg = errorData.error?.message || errorMsg;
@@ -160,7 +160,7 @@ async function callPollinationsAPI(messages, onChunk, options = {}) {
     } catch (error) {
         clearTimeout(timeoutId);
         if (error.name === 'AbortError') {
-            throw new Error('⏱️ Tiempo de espera agotado');
+            throw new Error('Tiempo de espera agotado. Verifica tu conexión a internet.');
         }
         throw error;
     }
