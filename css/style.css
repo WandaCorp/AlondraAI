@@ -40,7 +40,7 @@ a:hover {
   --bg-primary: #0F0F0F;
   --bg-secondary: #1e1f21;
   --bg-tertiary: #242424;
-  --bg-modal: #2C2C2E;
+  --bg-modal: #1E1E1E;
   --bg-input: #333;
   --bg-hover: rgba(255, 255, 255, 0.08);
   --bg-active: rgba(59, 130, 246, 0.15);
@@ -66,8 +66,6 @@ a:hover {
   
   /* === BURBUJAS === */
   --user-bubble-color: #0A84FF;
-  --bubble-border: rgba(255, 255, 255, 0.08);
-  --bubble-user: #1e2a3a;
   
   /* === TIPOGRAFÍA === */
   --font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -113,7 +111,6 @@ a:hover {
   --header-height: 73px;
   --header-height-mobile: 61px;
   --max-chat-width: 700px;
-  --icon-size: 40px;
   
   /* === Z-INDEX === */
   --z-header: 1000;
@@ -183,7 +180,7 @@ a:hover {
 .alondra-header__container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0.75rem 1.5rem;
+    padding: 0.50rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -199,7 +196,7 @@ a:hover {
 
 /* ===== CENTRO ===== */
 .alondra-header__center {
-    padding: 8px 5px;
+    padding: 4px 5px;
     border-radius: 26px;
     flex: 1;
     min-width: 0; /* ← CRUCIAL para que el truncado funcione */
@@ -219,6 +216,11 @@ a:hover {
     overflow: hidden;
     text-overflow: ellipsis;
     color: var(--text-primary);
+}
+
+.brand-alondra{
+  font-size: 11px;
+  color: var(--text-muted);
 }
 
 /* ===== LADO DERECHO ===== */
@@ -543,7 +545,9 @@ a:hover {
   gap: 12px;
   border-radius: var(--radius-md);
   padding: 15px 20px;
-  border: 1px solid #444;
+  background: #292929;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Inputs */
@@ -895,7 +899,7 @@ a:hover {
 .message-container {
   flex: 1;
   overflow-y: auto;
-  padding: 15px 12px;
+  padding: 15px 0;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
@@ -919,11 +923,12 @@ a:hover {
 .bubble {
   max-width: 100%;
   border-radius: 26px;
-  padding: 0.6rem 1.25rem;
-  line-height: 1.5;
+  padding: 0.6rem 1.12rem;
+  line-height: 1.7;
   font-size: var(--text-base);
   position: relative;
   transition: var(--transition-default);
+  hyphens: auto;
 }
 
 .bot-bubble {
@@ -1025,10 +1030,10 @@ a:hover {
   display: flex;
   flex-direction: column;
   background: var(--bg-tertiary);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border-medium);
   padding: 10px 10px;
   border-radius: 26px;
-  margin: 0 8px;
+  margin: 0 5px;
 }
 
 .textarea-wrapper {
@@ -1160,8 +1165,8 @@ a:hover {
 }
 
 .chip {
-    background: var(--bg-tertiary);
-    border: none;
+    background: #101112;
+    border: 1px solid var(--border-soft);
     color: var(--text-primary);
     padding: 15px 18px;
     border-radius: 50px;
@@ -1226,12 +1231,12 @@ a:hover {
 
 .bot-bubble strong,
 .bot-bubble b {
-  font-weight: 700;
+  font-weight: 500;
   color: var(--text-primary);
   letter-spacing: 0.01em;
 }
 
-.bot-bubble strong {
+/* .bot-bubble strong {
   background-image: repeating-linear-gradient(
     90deg,
     var(--text-tertiary),
@@ -1245,7 +1250,7 @@ a:hover {
   padding-bottom: 2px;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-}
+} */
 
 .bot-bubble h1 {
   font-size: var(--text-2xl);
@@ -1301,33 +1306,32 @@ a:hover {
 
 .bot-bubble .table-wrapper {
   width: 100%;
+  padding: 5px 8px;
   overflow-x: auto;
   margin: var(--spacing-lg) 0;
   border-radius: var(--radius-md);
-  background-color: var(--bg-tertiary);
 }
 
 .bot-bubble table {
-  width: 100%;
   border-collapse: collapse;
+  white-space: nowrap;
   font-size: var(--text-sm);
-  background-color: var(--bg-tertiary);
+  background-color: var(--bg-primary);
   border-radius: var(--radius-md);
-  overflow: hidden;
 }
 
 .bot-bubble th {
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: 5px 8px;
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
-  border-bottom: 2px solid var(--accent-soft);
-  background-color: var(--bg-active);
+  border: 1px solid var(--border-strong);
 }
 
 .bot-bubble td {
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-bottom: 1px solid var(--border-default);
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--border-strong);
+  border: 1px solid var(--border-strong);
   color: var(--text-secondary);
 }
 
@@ -1362,7 +1366,7 @@ a:hover {
   }
   
   .message-container {
-    padding: 15px 10px;
+    padding: 15px 0;
     gap: var(--spacing-lg);
   }
   
@@ -1435,10 +1439,6 @@ a:hover {
 
   .user-bubble {
     max-width: 85% !important;
-  }
-  
-  .message-container {
-    padding: 10px 5px;
   }
   
   .settings-tab-btn {

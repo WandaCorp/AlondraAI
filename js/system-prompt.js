@@ -134,7 +134,7 @@ let languagesLoaded = false;            // Flag de carga de idiomas
 // Configuraciones actuales (con valores por defecto)
 let currentPersonality = localStorage.getItem('pera_personality') || 'profesional';
 let currentLanguage = localStorage.getItem('pera_language') || 'es';
-let currentUserName = localStorage.getItem('pera_user_name') || 'user0873837';
+let currentUserName = localStorage.getItem('pera_user_name') || 'User';
 
 // Límite de mensajes en contexto
 const MAX_CONTEXT_MESSAGES = 15;
@@ -200,13 +200,13 @@ function actualizarSystemPrompt() {
     
     // Añadir instrucción sobre el nombre del usuario
     // Añadir instrucción sobre el nombre del usuario
-if (currentUserName && currentUserName !== 'user0873837') {
+if (currentUserName && currentUserName !== 'User') {
     if (!yaSaludamosAlUsuario) {
         prompt += `\n\nEl usuario se llama ${currentUserName}. Salúdalo por su nombre de forma natural en esta primera respuesta.`;
     } else {
         prompt += `\n\nEl usuario se llama ${currentUserName}. Ya lo has saludado, así que NO repitas su nombre al inicio de cada frase. Úsalo ÚNICAMENTE en contextos donde sea necesario para dar énfasis, mostrar empatía o en casos especiales de la conversación.`;
     }
-} else if (currentUserName === 'user0873837') {
+} else if (currentUserName === 'User') {
     // MISMOS PROMPTS que arriba, pero con el nombre default
     if (!yaSaludamosAlUsuario) {
         prompt += `\n\nEl usuario se llama ${currentUserName}. Salúdalo por su nombre de forma natural en esta primera respuesta.`;
@@ -253,7 +253,7 @@ function setLanguage(languageCode) {
  * @param {string} name - Nombre del usuario
  */
 function setUserName(name) {
-    currentUserName = name && name.trim() ? name.trim() : 'user0873837';
+    currentUserName = name && name.trim() ? name.trim() : 'User';
     localStorage.setItem('pera_user_name', currentUserName);
     actualizarSystemPrompt();
     

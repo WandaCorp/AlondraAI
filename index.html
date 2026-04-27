@@ -47,18 +47,35 @@
   <!-- CSS -->  
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/additional.css" /> 
-  <!-- CSS de highlight.js para los colores -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
   
+  <!-- CSS de highlight.js: carga asíncrona -->
+  <link rel="preload" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" 
+      as="style" 
+      onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+  </noscript>
+
   <!-- Fonts -->  
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Precargar solo el font-display swap, pero sin bloquear el render -->
+  <link rel="preload" 
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" 
+      as="style" 
+      onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  </noscript>
   
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <!-- KaTeX CSS: carga asíncrona -->
+  <link rel="preload" 
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" 
+      as="style" 
+      onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+  </noscript>
   
-  <!-- KaTeX CSS para fórmulas matemáticas -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <!-- KaTeX JS para renderizar -->
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <!-- Auto-render para convertir $$...$$ automáticamente -->
@@ -69,13 +86,9 @@
         {left: '\\(', right: '\\)', display: false},
         {left: '\\[', right: '\\]', display: true}
     ]});"></script>
-  
 </head>
-
 <body>
-  
 <a href="#mainContent" class="skip-to-content">Saltar al contenido principal</a>
-
 <header class="alondra-header" id="mainHeader" role="banner">
     <div class="alondra-header__container">
         <!-- ========== IZQUIERDA: Configuración ========== -->
@@ -101,7 +114,8 @@
 
         <!-- ========== CENTRO: Alondra AI ========== -->
         <div class="alondra-header__center">
-            <h2 class="alondra-chat__theme" id="alondraChatTheme">Nuevo chat</h2>
+            <h1 class="alondra-chat__theme" id="alondraChatTheme">Nuevo chat</h1> 
+            <span class="brand-alondra">Con tecnología de pollinatios.ai</span>
         </div>
 
         <!-- ========== DERECHA: Nuevo Chat ========== -->
@@ -370,7 +384,7 @@
                 </div>
             </div>
 
-            <p class="version-website">Versión: 1.1.8</p>
+            <p class="version-website">Versión: 1.2.0</p>
         </div>
     </div>
 
@@ -379,7 +393,7 @@
             <div class="welcome-chat" aria-label="Pantalla de bienvenida">
                 <div class="welcome-header">
                     <h2 id="welcome-user-greeting">Hola, User</h2>
-                    <h1>¿Por dónde empezamos?</h1>
+                    <h1>¡Estoy lista para todo!</h1>
                 </div>
 
                 <div class="chips-container" aria-label="Sugerencias de mensajes">
@@ -448,6 +462,8 @@
     <script src="js/system-prompt.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/script-basic.js"></script>
-
+    <!-- jsPDF para exportar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/message-actions.js"></script>
 </body>
 </html>
